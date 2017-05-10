@@ -9,8 +9,7 @@ import java.awt.*;
 public class InstructionFrame extends JFrame {
     private int INTRUCTION_WIDTH = 500;
     private int INTRUCTION_HEIGHT = 500;
-
-
+    
     public InstructionFrame() throws HeadlessException {
         setSize(INTRUCTION_WIDTH, INTRUCTION_HEIGHT);
         setAlwaysOnTop(true);

@@ -11,8 +11,6 @@ import javax.swing.*;
  */
 public class GameFrame extends JFrame {
     private static GameFrame instance;
-    public static final int GAME_WIDTH = 500;
-    public static final int GAME_HEIGHT = 500;
     private MainContainer mainContainer;
 
     public GameFrame() {
