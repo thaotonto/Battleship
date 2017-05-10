@@ -16,6 +16,7 @@ public class StartPanel extends JPanel implements ActionListener {
     private int START_HEIGHT = 300;
 
     private JButton backBtn;
+    private JButton playBtn;
 
     public StartPanel() {
         setLayout(null);
@@ -25,9 +26,14 @@ public class StartPanel extends JPanel implements ActionListener {
 
     private void initComp() {
         backBtn = new JButton("BACK");
-        backBtn.setBounds(100, 100, 100, 50);
+        backBtn.setBounds(10, 100, 100, 50);
         backBtn.addActionListener(this);
         add(backBtn);
+
+        playBtn = new JButton("PLAY");
+        playBtn.addActionListener(this);
+        playBtn.setBounds(120, 100, 100, 50);
+        add(playBtn);
     }
 
     @Override
@@ -45,6 +51,8 @@ public class StartPanel extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == backBtn) {
             MainContainer.getInstance().onBackPressed();
+        } else if (e.getSource() == playBtn) {
+            MainContainer.getInstance().showPanel(MainContainer.TAG_GAME, true);
         }
     }
 }
