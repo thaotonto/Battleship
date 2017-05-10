@@ -10,8 +10,8 @@ import java.util.List;
 /**
  * Created by tonto on 5/10/2017.
  */
-public class MainPanel extends Container {
-    private static MainPanel instance;
+public class MainContainer extends Container {
+    private static MainContainer instance;
     private List<Component> components;
     public static final String TAG_MENU = "tag_menu";
     public static final String TAG_START = "tag_start";
@@ -22,16 +22,16 @@ public class MainPanel extends Container {
     private MenuPanel menuPanel;
     private StartPanel startPanel;
 
-    public MainPanel() {
+    public MainContainer() {
         components = new ArrayList<Component>();
         instance = this;
         showPanel(TAG_MENU, true);
         setVisible(true);
     }
 
-    public static MainPanel getInstance() {
+    public static MainContainer getInstance() {
         if (instance == null) {
-            instance = new MainPanel();
+            instance = new MainContainer();
         }
         return instance;
     }
@@ -65,6 +65,8 @@ public class MainPanel extends Container {
             Component component = components.get(components.size() - 1);
             component.setName(TAG_MENU);
             GameFrame.getInstance().setPanel(menuPanel);
+        } else if (tag.equals(TAG_INSTRUCTION)) {
+            showInstruction();
         }
     }
 
@@ -72,6 +74,10 @@ public class MainPanel extends Container {
         components.remove(components.size() - 1);
         Component component = components.get(components.size() - 1);
         GameFrame.getInstance().setPanel((JPanel) component);
+    }
+
+    public void showInstruction() {
+        new InstructionFrame();
     }
 
 }

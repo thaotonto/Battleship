@@ -1,6 +1,5 @@
 package ui;
 
-import gamemain.GameFrame;
 import utils.Utils;
 
 import javax.swing.*;
@@ -45,7 +44,7 @@ public class StartPanel extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == backBtn) {
-            MainPanel.getInstance().onBackPressed();
+            MainContainer.getInstance().onBackPressed();
         }
     }
 }

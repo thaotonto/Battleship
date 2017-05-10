@@ -1,6 +1,6 @@
 package gamemain;
 
-import ui.MainPanel;
+import ui.MainContainer;
 
 
 import javax.swing.*;
@@ -13,7 +13,7 @@ public class GameFrame extends JFrame {
     private static GameFrame instance;
     public static final int GAME_WIDTH = 500;
     public static final int GAME_HEIGHT = 500;
-    private MainPanel mainPanel;
+    private MainContainer mainContainer;
 
     public GameFrame() {
         instance = this;
@@ -22,7 +22,7 @@ public class GameFrame extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // set contain
-        mainPanel = new MainPanel();
+        mainContainer = new MainContainer();
     }
 
     public static GameFrame getInstance() {

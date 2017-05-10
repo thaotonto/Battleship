@@ -1,6 +1,5 @@
 package ui;
 
-import gamemain.GameFrame;
 import utils.Utils;
 
 import javax.swing.*;
@@ -23,16 +22,32 @@ public class MenuPanel extends JPanel implements ActionListener {
 
     public MenuPanel() {
         instance = this;
-        setLayout(null);
+        setLayout(new BorderLayout());
         menuBackground = Utils.loadImageFromRes("BG-0.png");
         initComp();
     }
 
     private void initComp() {
+        GridBagConstraints gridBagConstraints = new GridBagConstraints();
+        gridBagConstraints.insets = new Insets(10, 20, 100, 20);
+
+        JPanel pageEnd = new JPanel(new GridBagLayout());
+        pageEnd.setOpaque(false);
+
+
         startBtn = new JButton("START");
-        startBtn.setBounds(200, 200, 100, 50);
         startBtn.addActionListener(this);
-        add(startBtn);
+        pageEnd.add(startBtn, gridBagConstraints);
+
+        instructionBtn = new JButton("INSTRUCTION");
+        instructionBtn.addActionListener(this);
+        pageEnd.add(instructionBtn, gridBagConstraints);
+
+        exitBtn = new JButton("EXIT");
+        exitBtn.addActionListener(this);
+        pageEnd.add(exitBtn, gridBagConstraints);
+
+        add(pageEnd, BorderLayout.PAGE_END);
     }
 
     @Override
@@ -49,7 +64,12 @@ public class MenuPanel extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == startBtn) {
-            MainPanel.getInstance().showPanel(MainPanel.TAG_START, true);
+            MainContainer.getInstance().showPanel(MainContainer.TAG_START, true);
+        } else if (e.getSource() == exitBtn) {
+            System.exit(1);
+        } else if (e.getSource() == instructionBtn) {
+            MainContainer.getInstance().showPanel(MainContainer.TAG_INSTRUCTION, true);
         }
+
     }
 }
