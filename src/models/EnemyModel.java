@@ -23,8 +23,8 @@ public class EnemyModel {
 
 
     private void setupBoard() {
-        genShip(1);
         genShip(2);
+        genShip(3);
         genShip(3);
         genShip(4);
         genShip(5);
@@ -33,18 +33,24 @@ public class EnemyModel {
     private void genShip(int shipLength) {
         Ship ship = new Ship(shipLength);
         for (int i = 0; i < shipLength; i++) {
+            int loopCount = 0;
             int[] dot = new int[2];
             if (i == 0) {
                 do {
                     dot[0] = random.nextInt(mapSize[0]);
                     dot[1] = random.nextInt(mapSize[1]);
-                } while (enemyBoard[dot[0]][dot[1]] == 1);
+                } while (enemyBoard[dot[0]][dot[1]] != 0);
                 ship.setOrientation(random.nextInt(2));
                 ship.getDotList().add(dot);
             } else {
-
                 boolean repeat = false;
                 do {
+                    loopCount++;
+                    if (loopCount > 200) {
+                        ship.getDotList().clear();
+                        clearMap();
+                        break;
+                    }
                     int getDot = random.nextInt(ship.getDotList().size());
                     int[] oldDot = ship.getDotList().get(getDot);
                     switch (ship.getOrientation()) {
@@ -65,9 +71,7 @@ public class EnemyModel {
                                 repeat = false;
                             break;
                     }
-                    System.out.println("dot: " + dot[0] + " " + dot[1]);
-                    System.out.println("old dot: " + dot[0] + " " + dot[1]);
-                } while (enemyBoard[dot[0]][dot[1]] == 1 || repeat);
+                } while (enemyBoard[dot[0]][dot[1]] != 0 || repeat);
                 ship.getDotList().add(dot);
             }
             enemyBoard[dot[0]][dot[1]] = 1;
@@ -75,21 +79,19 @@ public class EnemyModel {
         shipList.add(ship);
     }
 
+    private void clearMap() {
+        enemyBoard = new int[mapSize[0]][mapSize[1]];
+        setupBoard();
+    }
+
     public void showBoard() {
+        System.out.println("________________________________________________________________________________");
         for (int i = 0; i < mapSize[0]; i++) {
             for (int j = 0; j < mapSize[1]; j++) {
                 System.out.print(enemyBoard[i][j] + " ");
             }
             System.out.println();
         }
-        showShip();
-    }
-
-    private void showShip() {
-        for (Ship ship : shipList) {
-            for (int[] dot : ship.getDotList()) {
-                System.out.println("ship: " + ship.getShipLength() + " " + dot[0] + " " + dot[1]);
-            }
-        }
+        System.out.println("_____________________________________________________________________________");
     }
 }
