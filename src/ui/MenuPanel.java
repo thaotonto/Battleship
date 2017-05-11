@@ -1,5 +1,6 @@
 package ui;
 
+import controllers.EnemyController;
 import utils.Utils;
 
 import javax.swing.*;
@@ -64,6 +65,7 @@ public class MenuPanel extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == startBtn) {
+            new EnemyController();
             MainContainer.getInstance().showPanel(MainContainer.TAG_START, true);
         } else if (e.getSource() == exitBtn) {
             System.exit(1);
