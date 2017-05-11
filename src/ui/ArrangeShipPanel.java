@@ -91,8 +91,8 @@ public class ArrangeShipPanel extends JPanel implements MouseMotionListener, Mou
         layeredPane.setCursor(null);
         if (currentShip==null) return;
 
-        int topLeftX= mouseEvent.getX()+deltaX;
-        int topLeftY= mouseEvent.getY()+ deltaY;
+        int topLeftX= mouseEvent.getX()+deltaX+30;
+        int topLeftY= mouseEvent.getY()+ deltaY+30;
         System.out.println(mouseEvent.getX()+" "+ mouseEvent.getY());
         System.out.println(deltaX+" "+ deltaY);
         System.out.println(topLeftX+ " "+topLeftY);

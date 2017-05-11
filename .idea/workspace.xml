@@ -2,18 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7d42f279-017d-417a-acb7-46671f2df0aa" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/out/production/Battleship/models/ShipLabel.class" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/out/production/Battleship/ui/ArrangeShipPanel.class" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/ship3_h.gif" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/ship3_v.gif" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/ship4_h.gif" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/ship4_v.gif" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/ship5_h.gif" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/ship5_v.gif" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Battleship/ui/ArrangeShipFrame.class" afterPath="$PROJECT_DIR$/out/production/Battleship/ui/ArrangeShipFrame.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/models/ShipLabel.java" afterPath="$PROJECT_DIR$/src/models/ShipLabel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ui/ArrangeShipFrame.java" afterPath="$PROJECT_DIR$/src/ui/ArrangeShipFrame.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ui/ArrangeShipPanel.java" afterPath="$PROJECT_DIR$/src/ui/ArrangeShipPanel.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -30,20 +18,20 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="ArrangeShipPanel.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="ArrangeShipPanel.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/ui/ArrangeShipPanel.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="120">
-              <caret line="98" column="53" lean-forward="false" selection-start-line="98" selection-start-column="53" selection-end-line="98" selection-end-column="53" />
+            <state relative-caret-position="52">
+              <caret line="94" column="50" lean-forward="false" selection-start-line="94" selection-start-column="50" selection-end-line="94" selection-end-column="50" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ShipLabel.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ShipLabel.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/models/ShipLabel.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="120">
+            <state relative-caret-position="222">
               <caret line="42" column="21" lean-forward="false" selection-start-line="42" selection-start-column="21" selection-end-line="42" selection-end-column="21" />
               <folding>
                 <element signature="e#1265#1266#0" expanded="true" />
@@ -101,8 +89,8 @@
         <option value="$PROJECT_DIR$/src/controllers/EnemyController.java" />
         <option value="$PROJECT_DIR$/src/ui/MainContainer.java" />
         <option value="$PROJECT_DIR$/src/ui/ArrangeShipFrame.java" />
-        <option value="$PROJECT_DIR$/src/ui/ArrangeShipPanel.java" />
         <option value="$PROJECT_DIR$/src/models/ShipLabel.java" />
+        <option value="$PROJECT_DIR$/src/ui/ArrangeShipPanel.java" />
       </list>
     </option>
   </component>
@@ -847,14 +835,6 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/ui/ArrangeShipPanel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="98" column="53" lean-forward="false" selection-start-line="98" selection-start-column="53" selection-end-line="98" selection-end-column="53" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/ui/ArrangeShipFrame.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="78">
@@ -865,7 +845,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/models/ShipLabel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
+        <state relative-caret-position="222">
           <caret line="42" column="21" lean-forward="false" selection-start-line="42" selection-start-column="21" selection-end-line="42" selection-end-column="21" />
           <folding>
             <element signature="e#1265#1266#0" expanded="true" />
@@ -873,6 +853,14 @@
             <element signature="e#1320#1321#0" expanded="true" />
             <element signature="e#1344#1345#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ui/ArrangeShipPanel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="52">
+          <caret line="94" column="50" lean-forward="false" selection-start-line="94" selection-start-column="50" selection-end-line="94" selection-end-column="50" />
+          <folding />
         </state>
       </provider>
     </entry>
