@@ -40,8 +40,10 @@ public class ArrangeShipFrame extends JFrame implements MouseListener, MouseMoti
         buildGameBoard();
         ImageIcon singleShip= new ImageIcon("resources/ship.png");
         ship= new JLabel(singleShip);
+
         JPanel temp=(JPanel)gameBoard.getComponent(0);
-        temp.add(ship,CENTER);
+        temp.add(ship);
+
 
 
     }
@@ -71,13 +73,18 @@ public class ArrangeShipFrame extends JFrame implements MouseListener, MouseMoti
 
     @Override
     public void mousePressed(MouseEvent mouseEvent) {
+
         ship=null;
         Component component= gameBoard.findComponentAt(mouseEvent.getX(),mouseEvent.getY());
-        if(component instanceof JPanel) return;
+        if(component instanceof JPanel)
+            return;
+
+
         Point parentLocatePoint= component.getParent().getLocation();
         deltaX=parentLocatePoint.x-mouseEvent.getX();
         deltaY=parentLocatePoint.y-mouseEvent.getY();
         ship=(JLabel)component;
+
         layeredPane.add(ship,JLayeredPane.DRAG_LAYER);
         ship.setLocation(mouseEvent.getX() + deltaX, mouseEvent.getY() + deltaY);
         layeredPane.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -97,7 +104,6 @@ public class ArrangeShipFrame extends JFrame implements MouseListener, MouseMoti
         int yMax = layeredPane.getHeight() - ship.getHeight();
         int y = Math.min(mouseEvent.getY(), yMax);
         y = Math.max(y, 0);
-        System.out.println(x+" "+ y);
         Component component= gameBoard.findComponentAt(x,y);
         Container parent= (Container)component;
         parent.add(ship);
@@ -119,13 +125,13 @@ public class ArrangeShipFrame extends JFrame implements MouseListener, MouseMoti
     public void mouseDragged(MouseEvent mouseEvent) {
         if(ship==null) return;
 
-        int x = mouseEvent.getX() ;
+        int x = mouseEvent.getX() +deltaX;
         int xMax = layeredPane.getWidth() - ship.getWidth();
 
         x = Math.min(x, xMax);
         x = Math.max(x, 0);
 
-        int y = mouseEvent.getY() ;
+        int y = mouseEvent.getY()+deltaY ;
         int yMax = layeredPane.getHeight() - ship.getHeight();
         y = Math.min(y, yMax);
         y = Math.max(y, 0);
@@ -136,6 +142,15 @@ public class ArrangeShipFrame extends JFrame implements MouseListener, MouseMoti
     @Override
     public void mouseMoved(MouseEvent mouseEvent) {
 
+    }
+
+    public static void main(String[] args) {
+        JFrame frame = new ArrangeShipFrame();
+        frame.setDefaultCloseOperation( DISPOSE_ON_CLOSE );
+        frame.setResizable( false );
+        frame.pack();
+        frame.setLocationRelativeTo( null );
+        frame.setVisible(true);
     }
 
 }

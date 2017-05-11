@@ -47,8 +47,8 @@ public class ArrangeShipPanel extends JPanel implements MouseMotionListener, Mou
         shipBoard.setOpaque(false);
         layeredPane.add(shipBoard, new Integer(1));
         shipList = new ArrayList<>();
-        shipList.add(new ShipLabel(0, 0, true, 5, Utils.loadImageFromRes("ship.png")));
-        shipList.add(new ShipLabel(2, 2, true, 4, Utils.loadImageFromRes("ship.png")));
+        shipList.add(new ShipLabel(0, 0, true, 5, Utils.loadImageFromRes("ship5_v.gif")));
+        shipList.add(new ShipLabel(2, 2, true, 4, Utils.loadImageFromRes("ship4_v.gif")));
         for (int i = 0; i < shipList.size(); ++i) {
             shipBoard.add(shipList.get(i));
         }
@@ -88,7 +88,17 @@ public class ArrangeShipPanel extends JPanel implements MouseMotionListener, Mou
 
     @Override
     public void mouseReleased(MouseEvent mouseEvent) {
+        layeredPane.setCursor(null);
+        if (currentShip==null) return;
 
+        int topLeftX= mouseEvent.getX()+deltaX;
+        int topLeftY= mouseEvent.getY()+ deltaY;
+        System.out.println(mouseEvent.getX()+" "+ mouseEvent.getY());
+        System.out.println(deltaX+" "+ deltaY);
+        System.out.println(topLeftX+ " "+topLeftY);
+        currentShip.setThings(topLeftX/60,topLeftY/60);
+        currentShip.setLocation(currentShip.getXPixel(),currentShip.getYPixel());
+        currentShip=null;
     }
 
     @Override
@@ -114,7 +124,7 @@ public class ArrangeShipPanel extends JPanel implements MouseMotionListener, Mou
     }
 
     public static void main(String[] args) {
-        JFrame frame = new JFrame("LayeredPaneDemo");
+        JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.add(new ArrangeShipPanel());
         frame.pack();

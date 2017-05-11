@@ -25,19 +25,31 @@ public class ShipLabel extends JLabel {
         y=60*column;
         ImageIcon imageIcon;
         if (isVertical) {
-            image = image.getScaledInstance(60, 60 * length, java.awt.Image.SCALE_SMOOTH);
+            image = image.getScaledInstance(60, 60 * length, Image.SCALE_SMOOTH);
             imageIcon = new ImageIcon(image);
             this.setIcon(imageIcon);
         } else {
-            image = image.getScaledInstance(60*length, 60, java.awt.Image.SCALE_SMOOTH);
+            image = image.getScaledInstance(60*length, 60, Image.SCALE_SMOOTH);
             imageIcon = new ImageIcon(image);
             this.setIcon(imageIcon);
         }
         setBounds(x,y,imageIcon.getIconWidth(),imageIcon.getIconHeight());
     }
-    public void setRowAndColumn(int row, int column)
+    public void setThings(int row, int column)
     {
         this.row=row;
         this.column=column;
+        this.x=row*60;
+        this.y=column*60;
+    }
+
+
+    public int getXPixel() {
+        return x;
+    }
+
+
+    public int getYPixel() {
+        return y;
     }
 }
