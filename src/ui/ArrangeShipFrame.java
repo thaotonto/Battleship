@@ -29,11 +29,6 @@ public class ArrangeShipFrame extends JFrame implements MouseListener, MouseMoti
         Dimension frameSize=  new Dimension(FRAME_WIDTH,FRAME_HEIGHT);
         layeredPane= new JLayeredPane();
         layeredPane.setPreferredSize(frameSize);
-        this.setDefaultCloseOperation( DISPOSE_ON_CLOSE );
-        this.setResizable( false );
-        this.pack();
-        this.setLocationRelativeTo( null );
-        this.setVisible(true);
         layeredPane.addMouseListener(this);
         layeredPane.addMouseMotionListener(this);
         getContentPane().add(layeredPane);
@@ -79,7 +74,7 @@ public class ArrangeShipFrame extends JFrame implements MouseListener, MouseMoti
         ship=null;
         Component component= gameBoard.findComponentAt(mouseEvent.getX(),mouseEvent.getY());
         if(component instanceof JPanel) return;
-        Point parentLocatePoint= component.getLocation();
+        Point parentLocatePoint= component.getParent().getLocation();
         deltaX=parentLocatePoint.x-mouseEvent.getX();
         deltaY=parentLocatePoint.y-mouseEvent.getY();
         ship=(JLabel)component;

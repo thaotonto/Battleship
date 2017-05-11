@@ -7,6 +7,8 @@ import java.awt.*;
 import java.util.*;
 import java.util.List;
 
+import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
+
 /**
  * Created by tonto on 5/10/2017.
  */
@@ -91,11 +93,12 @@ public class MainContainer {
 
     private void showArrangeShipFrame() {
         JFrame frame = new ArrangeShipFrame();
-        frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        frame.setResizable(false);
+        frame.setDefaultCloseOperation( DISPOSE_ON_CLOSE );
+        frame.setResizable( false );
         frame.pack();
         frame.setLocationRelativeTo( null );
         frame.setVisible(true);
+
     }
 
     public void onBackPressed() {
