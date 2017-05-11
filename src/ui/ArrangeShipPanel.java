@@ -16,10 +16,12 @@ import java.util.ArrayList;
  */
 public class ArrangeShipPanel extends JPanel implements MouseMotionListener, MouseListener {
 
-    private static final int FRAME_WIDTH = 600;
-    private static final int FRAME_HEIGHT = 600;
-    private static final int NUMBER_ROWS = 10;
-    private static final int NUMBER_COLUMNS = 10;
+
+    public static final int NUMBER_ROWS = 10;
+    public static final int NUMBER_COLUMNS = 10;
+    public static final int SQUARE_LENGTH = 30;
+    private  JPanel chooseShipPanel;
+
     private JLayeredPane layeredPane;
     private JPanel gameBoard;
     private JPanel shipBoard;
@@ -27,31 +29,52 @@ public class ArrangeShipPanel extends JPanel implements MouseMotionListener, Mou
     private ShipLabel currentShip;
     private int deltaX;
     private int deltaY;
+
     public ArrangeShipPanel() {
 
-        Dimension frameSize = new Dimension(FRAME_WIDTH, FRAME_HEIGHT);
+        Dimension frameSize = new Dimension(SQUARE_LENGTH * NUMBER_ROWS, SQUARE_LENGTH * NUMBER_COLUMNS);
         setLayout(new BorderLayout());
         layeredPane = new JLayeredPane();
-        layeredPane.setPreferredSize(frameSize);
+        layeredPane.setPreferredSize(new Dimension(SQUARE_LENGTH * (NUMBER_ROWS+5),(SQUARE_LENGTH*NUMBER_COLUMNS)));
         add(layeredPane);
         gameBoard = new JPanel();
         gameBoard.setLayout(new GridLayout(NUMBER_ROWS, NUMBER_COLUMNS));
-        gameBoard.setPreferredSize(frameSize);
-        gameBoard.setBounds(0, 0, FRAME_WIDTH, FRAME_HEIGHT);
+
+        gameBoard.setBounds(0, 0, (int) frameSize.getWidth(), (int) frameSize.getHeight());
         layeredPane.add(gameBoard, new Integer(0));
+        chooseShipPanel= new JPanel();
+        chooseShipPanel.setLayout(null);
+        chooseShipPanel.setBounds(300,0,5*SQUARE_LENGTH,SQUARE_LENGTH*NUMBER_COLUMNS);
+        chooseShipPanel.setBackground(Color.MAGENTA);
+        layeredPane.add(chooseShipPanel,new Integer(0));
         buildGameBoard();
         shipBoard = new JPanel();
         shipBoard.setLayout(null);
-        shipBoard.setPreferredSize(frameSize);
-        shipBoard.setBounds(0, 0, FRAME_WIDTH, FRAME_HEIGHT);
+
+         shipBoard.setBounds(0, 0, SQUARE_LENGTH * (NUMBER_ROWS+5), SQUARE_LENGTH*NUMBER_COLUMNS);
         shipBoard.setOpaque(false);
         layeredPane.add(shipBoard, new Integer(1));
         shipList = new ArrayList<>();
-        shipList.add(new ShipLabel(0, 0, true, 5, Utils.loadImageFromRes("ship5_v.gif")));
-        shipList.add(new ShipLabel(2, 2, true, 4, Utils.loadImageFromRes("ship4_v.gif")));
-        for (int i = 0; i < shipList.size(); ++i) {
-            shipBoard.add(shipList.get(i));
-        }
+
+        ShipLabel shipLabel=  new ShipLabel( 5, Utils.loadImageFromRes("ship5_v.gif"));
+        shipBoard.add(shipLabel);
+        shipLabel.setBounds(SQUARE_LENGTH*NUMBER_COLUMNS+SQUARE_LENGTH,SQUARE_LENGTH,SQUARE_LENGTH,shipLabel.getLength()*SQUARE_LENGTH);
+
+//        shipLabel=  new ShipLabel( 4, Utils.loadImageFromRes("ship4_v.gif"));
+//        chooseShipPanel.add(shipLabel);
+//        shipLabel.setBounds(SQUARE_LENGTH*2-SQUARE_LENGTH/3,SQUARE_LENGTH,shipLabel.getWidth(),shipLabel.getHeight());
+
+//        shipLabel=  new ShipLabel( 4, Utils.loadImageFromRes("ship3_v.gif"));
+//        chooseShipPanel.add(shipLabel);
+//   shipLabel.setBounds(10,SQUARE_LENGTH,shipLabel.getWidth(),shipLabel.getHeight());
+//        shipList.add(new ShipLabel( 5, Utils.loadImageFromRes("ship5_v.gif")));
+//        shipList.add(new ShipLabel( 4, Utils.loadImageFromRes("ship4_v.gif")));
+//        shipList.add(new ShipLabel( 3, Utils.loadImageFromRes("ship3_v.gif")));
+//        shipList.add(new ShipLabel( 2, Utils.loadImageFromRes("ship3_v.gif")));
+//        shipList.add(new ShipLabel( 2, Utils.loadImageFromRes("ship3_v.gif")));
+
+
+
         layeredPane.addMouseListener(this);
         layeredPane.addMouseMotionListener(this);
 
@@ -75,30 +98,30 @@ public class ArrangeShipPanel extends JPanel implements MouseMotionListener, Mou
 
     @Override
     public void mousePressed(MouseEvent mouseEvent) {
-        Component component = shipBoard.findComponentAt(mouseEvent.getX(), mouseEvent.getY());
+        Component component = layeredPane.findComponentAt(mouseEvent.getX(), mouseEvent.getY());
         if (component instanceof JPanel) {
             return;
         }
         currentShip = (ShipLabel) component;
-        deltaX= currentShip.getX()-mouseEvent.getX();
-        deltaY= currentShip.getY()-mouseEvent.getY();
-        currentShip.setLocation(mouseEvent.getX()+deltaX,mouseEvent.getY()+deltaY);
+        deltaX = currentShip.getX() - mouseEvent.getX();
+        deltaY = currentShip.getY() - mouseEvent.getY();
+        currentShip.setLocation(mouseEvent.getX() + deltaX, mouseEvent.getY() + deltaY);
         layeredPane.setCursor(Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR));
     }
 
     @Override
     public void mouseReleased(MouseEvent mouseEvent) {
         layeredPane.setCursor(null);
-        if (currentShip==null) return;
+        if (currentShip == null) return;
 
-        int topLeftX= mouseEvent.getX()+deltaX+30;
-        int topLeftY= mouseEvent.getY()+ deltaY+30;
-        System.out.println(mouseEvent.getX()+" "+ mouseEvent.getY());
-        System.out.println(deltaX+" "+ deltaY);
-        System.out.println(topLeftX+ " "+topLeftY);
-        currentShip.setThings(topLeftX/60,topLeftY/60);
-        currentShip.setLocation(currentShip.getXPixel(),currentShip.getYPixel());
-        currentShip=null;
+        int topLeftX = mouseEvent.getX() + deltaX + SQUARE_LENGTH/2;
+        int topLeftY = mouseEvent.getY() + deltaY + SQUARE_LENGTH/2;
+        System.out.println(mouseEvent.getX() + " " + mouseEvent.getY());
+        System.out.println(deltaX + " " + deltaY);
+        System.out.println(topLeftX + " " + topLeftY);
+        currentShip.setThings(topLeftX / SQUARE_LENGTH, topLeftY / SQUARE_LENGTH);
+        currentShip.setLocation(currentShip.getXPixel(), currentShip.getYPixel());
+        currentShip = null;
     }
 
     @Override
@@ -114,7 +137,7 @@ public class ArrangeShipPanel extends JPanel implements MouseMotionListener, Mou
     @Override
     public void mouseDragged(MouseEvent mouseEvent) {
         if (currentShip != null) {
-            currentShip.setLocation(mouseEvent.getX()+deltaX,mouseEvent.getY()+deltaY);
+            currentShip.setLocation(mouseEvent.getX() + deltaX, mouseEvent.getY() + deltaY);
         }
     }
 
