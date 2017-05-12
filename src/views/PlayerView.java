@@ -1,6 +1,7 @@
 package views;
 
 import models.ShipLabel;
+import ui.ArrowPanel;
 import ui.MainContainer;
 
 import javax.swing.*;
@@ -24,6 +25,7 @@ public class PlayerView extends JPanel implements MouseMotionListener, MouseList
     private JLayeredPane layeredPane;
     private JPanel gameBoard;
     private JPanel shipBoard;
+    private ArrowPanel arrowPanel;
     private ArrayList<ShipLabel> shipList;
     private ShipLabel currentShip;
     private int deltaX;
@@ -47,7 +49,6 @@ public class PlayerView extends JPanel implements MouseMotionListener, MouseList
 
         layeredPane.addMouseListener(this);
         layeredPane.addMouseMotionListener(this);
-
     }
 
     private void buildShipBoard() {
@@ -70,6 +71,9 @@ public class PlayerView extends JPanel implements MouseMotionListener, MouseList
             public void actionPerformed(ActionEvent e) {
                 layeredPane.remove(chooseShipPanel);
                 // TODO: add arrow panel
+                arrowPanel = new ArrowPanel();
+                arrowPanel.setBounds(SQUARE_LENGTH * NUMBER_COLUMNS, 0, COLUMNS_FOR_CHOOSE_SHIP_PANEL * SQUARE_LENGTH, SQUARE_LENGTH * NUMBER_ROWS);
+                layeredPane.add(arrowPanel,new Integer(0));
                 layeredPane.removeMouseListener(PlayerView.this);
                 layeredPane.removeMouseMotionListener(PlayerView.this);
                 MainContainer.getInstance().showPanel(MainContainer.TAG_GAME, true);
