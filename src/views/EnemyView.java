@@ -7,7 +7,6 @@ import javax.swing.border.MatteBorder;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.*;
 
 /**
  * Created by tonto on 5/11/2017.
@@ -16,6 +15,7 @@ public class EnemyView extends JPanel implements MouseListener {
     private int WIDTH = 300;
     private int HEIGHT = 300;
     private int[][] board;
+    private Cursor crosshairCursor;
 
     public EnemyView(int[][] board) {
         this.board = board;
@@ -23,6 +23,11 @@ public class EnemyView extends JPanel implements MouseListener {
         buildGameBoard();
         addMouseListener(this);
         setBackground(Color.white);
+        Toolkit toolkit = Toolkit.getDefaultToolkit();
+        toolkit.getBestCursorSize(PlayerView.SQUARE_LENGTH, PlayerView.SQUARE_LENGTH);
+        Image image = Utils.loadImageFromRes("crosshair.png");
+        Point hotSpot = new Point(PlayerView.SQUARE_LENGTH / 2, PlayerView.SQUARE_LENGTH / 2);
+        crosshairCursor = toolkit.createCustomCursor(image, hotSpot, "crosshair");
     }
 
     @Override
@@ -33,7 +38,7 @@ public class EnemyView extends JPanel implements MouseListener {
     private void buildGameBoard() {
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[i].length; j++) {
-                JLabel square = new JLabel(new ImageIcon(),JLabel.CENTER);
+                JLabel square = new JLabel(new ImageIcon(), JLabel.CENTER);
                 square.setOpaque(false);
                 square.setBackground(Color.white);
                 square.setName(i + " " + j);
@@ -69,7 +74,7 @@ public class EnemyView extends JPanel implements MouseListener {
 
     @Override
     public void mouseEntered(MouseEvent e) {
-
+        setCursor(crosshairCursor);
     }
 
     @Override
