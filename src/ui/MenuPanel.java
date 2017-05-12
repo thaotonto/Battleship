@@ -40,7 +40,7 @@ public class MenuPanel extends JPanel implements ActionListener {
         startBtn.addActionListener(this);
         pageEnd.add(startBtn, gridBagConstraints);
 
-        instructionBtn = new JButton("INSTRUCTION");
+        instructionBtn = new JButton("INSTRUCTIONS");
         instructionBtn.addActionListener(this);
         pageEnd.add(instructionBtn, gridBagConstraints);
 
