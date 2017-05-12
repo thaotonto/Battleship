@@ -1,19 +1,18 @@
-package ui;
+package views;
 
 import models.ShipLabel;
+import ui.MainContainer;
 
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
+import java.awt.event.*;
 import java.util.ArrayList;
 
 /**
  * Created by Inpriron on 5/11/2017.
  */
-public class ArrangeShipPanel extends JPanel implements MouseMotionListener, MouseListener {
+public class PlayerView extends JPanel implements MouseMotionListener, MouseListener {
 
 
     public static final int NUMBER_ROWS = 10;
@@ -30,7 +29,7 @@ public class ArrangeShipPanel extends JPanel implements MouseMotionListener, Mou
     private int deltaX;
     private int deltaY;
 
-    public ArrangeShipPanel() {
+    public PlayerView() {
         setLayout(new BorderLayout());
         layeredPane = new JLayeredPane();
         layeredPane.setPreferredSize(new Dimension(SQUARE_LENGTH * (NUMBER_COLUMNS + COLUMNS_FOR_CHOOSE_SHIP_PANEL), (SQUARE_LENGTH * NUMBER_ROWS)));
@@ -60,14 +59,25 @@ public class ArrangeShipPanel extends JPanel implements MouseMotionListener, Mou
 
     private void buildChooseShipPanel() {
         chooseShipPanel = new JPanel();
-        chooseShipPanel.setLayout(null);
-        chooseShipPanel.setBounds(SQUARE_LENGTH*NUMBER_COLUMNS, 0, COLUMNS_FOR_CHOOSE_SHIP_PANEL * SQUARE_LENGTH, SQUARE_LENGTH * NUMBER_ROWS);
-        chooseShipPanel.setBackground(Color.MAGENTA);
+        chooseShipPanel.setLayout(new BorderLayout());
+        chooseShipPanel.setBounds(SQUARE_LENGTH * NUMBER_COLUMNS, 0, COLUMNS_FOR_CHOOSE_SHIP_PANEL * SQUARE_LENGTH, SQUARE_LENGTH * NUMBER_ROWS);
+        chooseShipPanel.setBackground(Color.gray);
         layeredPane.add(chooseShipPanel, new Integer(0));
+        JButton playBtn = new JButton("PLAY");
+        playBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                layeredPane.remove(chooseShipPanel);
+                // TODO: add arrow panel
+                layeredPane.removeMouseListener(PlayerView.this);
+                layeredPane.removeMouseMotionListener(PlayerView.this);
+                MainContainer.getInstance().showPanel(MainContainer.TAG_GAME, true);
+            }
+        });
+        chooseShipPanel.add(playBtn, BorderLayout.PAGE_END);
     }
 
     private void initShipLabel() {
-
 
         createShipLabel(5, (SQUARE_LENGTH * (NUMBER_COLUMNS + 1)), SQUARE_LENGTH / 3);
         createShipLabel(2, (SQUARE_LENGTH * (NUMBER_COLUMNS + 3)), SQUARE_LENGTH / 3);
@@ -92,7 +102,7 @@ public class ArrangeShipPanel extends JPanel implements MouseMotionListener, Mou
         for (int i = 0; i < NUMBER_ROWS; i++) {
             for (int j = 0; j < NUMBER_COLUMNS; j++) {
                 JPanel square = new JPanel(new BorderLayout());
-                square.setBackground(Color.blue);
+                square.setBackground(Color.white);
                 gameBoard.add(square);
                 square.setBorder(new MatteBorder(1, 1, 1, 1, Color.BLACK));
             }
@@ -155,12 +165,11 @@ public class ArrangeShipPanel extends JPanel implements MouseMotionListener, Mou
         int topLeftY = mouseEvent.getY() + deltaY + SQUARE_LENGTH / 2;
 
         currentShip.setThings(topLeftX / SQUARE_LENGTH, topLeftY / SQUARE_LENGTH);
-        if(checkIntersect(currentShip))
-        {
+        if (checkIntersect(currentShip)) {
             System.out.println("intersects");
             currentShip.setBackToLastLocation();
         }
-        currentShip.setLocation(currentShip.getXPixel(),currentShip.getYPixel());
+        currentShip.setLocation(currentShip.getXPixel(), currentShip.getYPixel());
         currentShip = null;
     }
 
@@ -176,8 +185,7 @@ public class ArrangeShipPanel extends JPanel implements MouseMotionListener, Mou
 
     private boolean checkIntersect(ShipLabel curShip) {
         for (int i = 0; i < shipList.size(); i++) {
-            if(shipList.get(i)!=curShip)
-            {
+            if (shipList.get(i) != curShip) {
                 if (curShip.isIntersect(shipList.get(i).getRectangle())) {
                     return true;
                 }
@@ -216,7 +224,7 @@ public class ArrangeShipPanel extends JPanel implements MouseMotionListener, Mou
     public static void main(String[] args) {
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.add(new ArrangeShipPanel());
+        frame.add(new PlayerView());
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);

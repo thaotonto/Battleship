@@ -1,13 +1,12 @@
 package ui;
 
 import gamemain.GameFrame;
+import views.PlayerView;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.*;
 import java.util.List;
-
-import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 
 /**
  * Created by tonto on 5/10/2017.
@@ -22,8 +21,8 @@ public class MainContainer {
     public static final String TAG_GAME_OVER = "tag_game_over";
 
     private MenuPanel menuPanel;
-    private StartPanel startPanel;
     private GamePanel gamePanel;
+    private PlayerView playerView;
 
     public MainContainer() {
         components = new ArrayList<>();
@@ -41,24 +40,14 @@ public class MainContainer {
 
     public void showPanel(String tag, boolean refresh) {
         if (tag.equals(TAG_START)) {
-//            if (!refresh) {
-//                for (Component component : components) {
-//                    System.out.println(component.getName());
-//                    if (component.getName().equals(TAG_START)) {
-//                        GameFrame.getInstance().setPanel((JPanel) component);
-//                    }
-//                }
-//            } else {
-//                if (startPanel != null) {
-//                    components.remove(startPanel);
-//                }
-//                startPanel = new StartPanel();
-//                components.add(startPanel);
-//                Component component = components.get(components.size() - 1);
-//                component.setName(TAG_START);
-//                GameFrame.getInstance().setPanel(startPanel);
-//            }
-            showArrangeShipFrame();
+            if (playerView != null) {
+                components.remove(playerView);
+            }
+            playerView = new PlayerView();
+            components.add(playerView);
+            Component component = components.get(components.size() - 1);
+            component.setName(TAG_START);
+            GameFrame.getInstance().setPanel(playerView);
         } else if (tag.equals(TAG_MENU)) {
             if (menuPanel != null) {
                 components.clear();
@@ -71,34 +60,9 @@ public class MainContainer {
         } else if (tag.equals(TAG_INSTRUCTION)) {
             showInstruction();
         } else if (tag.equals(TAG_GAME)) {
-            if (!refresh) {
-                for (Component component : components) {
-                    System.out.println(component.getName());
-                    if (component.getName().equals(TAG_GAME)) {
-                        GameFrame.getInstance().setPanel((JPanel) component);
-                    }
-                }
-            } else {
-                if (startPanel != null) {
-                    components.remove(gamePanel);
-                }
-                gamePanel = new GamePanel();
-                components.add(gamePanel);
-                Component component = components.get(components.size() - 1);
-                component.setName(TAG_GAME);
-                GameFrame.getInstance().setPanel(gamePanel);
-            }
+            gamePanel = new GamePanel(playerView);
+            GameFrame.getInstance().setPanel(gamePanel);
         }
-    }
-
-    private void showArrangeShipFrame() {
-        JFrame frame = new ArrangeShipFrame();
-        frame.setDefaultCloseOperation( DISPOSE_ON_CLOSE );
-        frame.setResizable( false );
-        frame.pack();
-        frame.setLocationRelativeTo( null );
-        frame.setVisible(true);
-
     }
 
     public void onBackPressed() {

@@ -5,7 +5,7 @@ import utils.Utils;
 import javax.swing.*;
 import java.awt.*;
 
-import static ui.ArrangeShipPanel.*;
+import static views.PlayerView.*;
 
 /**
  * Created by Inpriron on 5/11/2017.
