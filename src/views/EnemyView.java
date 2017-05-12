@@ -38,7 +38,7 @@ public class EnemyView extends JPanel implements MouseListener {
     private void buildGameBoard() {
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[i].length; j++) {
-                JLabel square = new JLabel(new ImageIcon(),JLabel.CENTER);
+                JLabel square = new JLabel(new ImageIcon(), JLabel.CENTER);
                 square.setName(i + " " + j);
                 this.add(square);
                 square.setBorder(new MatteBorder(1, 1, 1, 1, Color.BLACK));
@@ -71,9 +71,7 @@ public class EnemyView extends JPanel implements MouseListener {
     }
 
     @Override
-    public void mouseEntered(MouseEvent e) {
-        setCursor(crosshairCursor);
-    }
+    public void mouseEntered(MouseEvent e) {setCursor(crosshairCursor);}
 
     @Override
     public void mouseExited(MouseEvent e) {
