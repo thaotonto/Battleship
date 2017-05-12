@@ -55,9 +55,6 @@ public class EnemyView extends JPanel implements MouseListener {
         JLabel component = (JLabel) getComponentAt(e.getPoint());
         if (board[row][column] == 1) {
             Image hitIcon = Utils.loadImageFromRes("hit.gif");
-            hitIcon.getScaledInstance(10, 10, Image.SCALE_DEFAULT);
-//            hitIcon.getScaledInstance(PlayerView.SQUARE_LENGTH, PlayerView.SQUARE_LENGTH, Image.SCALE_SMOOTH);
-
             component.setIcon(new ImageIcon(hitIcon));
         } else {
             ImageIcon missIcon = new ImageIcon("resources/miss.gif");

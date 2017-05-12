@@ -32,7 +32,8 @@ public class PlayerView extends JPanel implements MouseMotionListener, MouseList
     public PlayerView() {
         setLayout(new BorderLayout());
         layeredPane = new JLayeredPane();
-        layeredPane.setPreferredSize(new Dimension(SQUARE_LENGTH * (NUMBER_COLUMNS + COLUMNS_FOR_CHOOSE_SHIP_PANEL), (SQUARE_LENGTH * NUMBER_ROWS)));
+        layeredPane.setPreferredSize(new Dimension(SQUARE_LENGTH * (NUMBER_COLUMNS + COLUMNS_FOR_CHOOSE_SHIP_PANEL),
+                (SQUARE_LENGTH * NUMBER_ROWS)));
         add(layeredPane);
         buildGameBoard();
 
