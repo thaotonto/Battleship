@@ -61,7 +61,7 @@ public class ArrangeShipPanel extends JPanel implements MouseMotionListener, Mou
     private void buildChooseShipPanel() {
         chooseShipPanel = new JPanel();
         chooseShipPanel.setLayout(null);
-        chooseShipPanel.setBounds(300, 0, 5 * SQUARE_LENGTH, SQUARE_LENGTH * NUMBER_ROWS);
+        chooseShipPanel.setBounds(SQUARE_LENGTH*NUMBER_COLUMNS, 0, COLUMNS_FOR_CHOOSE_SHIP_PANEL * SQUARE_LENGTH, SQUARE_LENGTH * NUMBER_ROWS);
         chooseShipPanel.setBackground(Color.MAGENTA);
         layeredPane.add(chooseShipPanel, new Integer(0));
     }

@@ -1,7 +1,5 @@
 package models;
 
-import org.w3c.dom.css.Rect;
-import ui.ArrangeShipPanel;
 import utils.Utils;
 
 import javax.swing.*;
@@ -80,28 +78,28 @@ public class ShipLabel extends JLabel {
     }
 
     public ShipLabel(int length, int defaultX, int defaultY) {
-        row=column=-1;
-        isVertical=true;
+        row = column = -1;
+        isVertical = true;
         this.length = length;
         this.imageV = Utils.loadImageFromRes("ship" + length + "_v.gif");
         this.imageH = Utils.loadImageFromRes("ship" + length + "_h.gif");
-        x=defaultX;
-        y=defaultY;
-        this.defaultX=defaultX;
-        this.defaultY=defaultY;
-        lastX=defaultX;
-        lastY=defaultY;
+        x = defaultX;
+        y = defaultY;
+        this.defaultX = defaultX;
+        this.defaultY = defaultY;
+        lastX = defaultX;
+        lastY = defaultY;
         ImageIcon imageIcon;
         imageV = imageV.getScaledInstance(SQUARE_LENGTH, SQUARE_LENGTH * length, Image.SCALE_SMOOTH);
         imageIcon = new ImageIcon(imageV);
         this.setIcon(imageIcon);
     }
-    public void setThings(int row, int column)
-    {
-        this.row=row;
-        this.column=column;
-        this.x=row*SQUARE_LENGTH;
-        this.y=column*SQUARE_LENGTH;
+
+    public void setThings(int row, int column) {
+        this.row = row;
+        this.column = column;
+        this.x = row * SQUARE_LENGTH;
+        this.y = column * SQUARE_LENGTH;
     }
 
 
@@ -114,52 +112,62 @@ public class ShipLabel extends JLabel {
         return y;
     }
 
-    public void toHorizontal()
-    {
-        isVertical=false;
-        imageH = imageH.getScaledInstance(SQUARE_LENGTH*length, SQUARE_LENGTH, Image.SCALE_SMOOTH);
+    public void toHorizontal() {
+
+        isVertical = false;
+        if (isIntersect(new Rectangle(SQUARE_LENGTH * NUMBER_COLUMNS,
+                0,
+                COLUMNS_FOR_CHOOSE_SHIP_PANEL * SQUARE_LENGTH,
+                SQUARE_LENGTH * NUMBER_ROWS))) {
+            isVertical=true;
+            return;
+        }
+        imageH = imageH.getScaledInstance(SQUARE_LENGTH * length, SQUARE_LENGTH, Image.SCALE_SMOOTH);
         ImageIcon imageIcon = new ImageIcon(imageH);
         this.setIcon(imageIcon);
-        setBounds(x,y,SQUARE_LENGTH*length,SQUARE_LENGTH);
-    }
-    public void toVertical()
-    {
-        isVertical=true;
-        ImageIcon imageIcon = new ImageIcon(imageV);
-        this.setIcon(imageIcon);
-        setBounds(x,y,SQUARE_LENGTH,SQUARE_LENGTH*length);
+        setBounds(x, y, SQUARE_LENGTH * length, SQUARE_LENGTH);
     }
 
-    public boolean isIntersect(Rectangle other)
-    {
+    public void toVertical() {
+        isVertical = true;
+        if (isIntersect(new Rectangle(0,
+                SQUARE_LENGTH*NUMBER_ROWS,
+                SQUARE_LENGTH*NUMBER_COLUMNS,
+                SQUARE_LENGTH))) {
+            isVertical=false;
+            return;
+        }
+        ImageIcon imageIcon = new ImageIcon(imageV);
+        this.setIcon(imageIcon);
+        setBounds(x, y, SQUARE_LENGTH, SQUARE_LENGTH * length);
+    }
+
+    public boolean isIntersect(Rectangle other) {
 
         return getRectangle().intersects(other);
     }
-    public Rectangle getRectangle()
-    {
+
+    public Rectangle getRectangle() {
         Rectangle rectangle;
-        if(isVertical)
-        {
-            rectangle= new Rectangle(x,y,SQUARE_LENGTH,SQUARE_LENGTH*length);
-        }
-        else
-        {
-            rectangle= new Rectangle(x,y,SQUARE_LENGTH*length,SQUARE_LENGTH);
+        if (isVertical) {
+            rectangle = new Rectangle(x, y, SQUARE_LENGTH, SQUARE_LENGTH * length);
+        } else {
+            rectangle = new Rectangle(x, y, SQUARE_LENGTH * length, SQUARE_LENGTH);
         }
         return rectangle;
     }
-    public void setBackToLastLocation()
-    {
-        if(lastX==defaultX&&lastY==defaultY)
-        {
-            row=column=-1;
-            x=defaultX;
-            y=defaultY;
+
+    public void setBackToLastLocation() {
+        if (lastX == defaultX && lastY == defaultY) {
+            row = column = -1;
+            x = defaultX;
+            y = defaultY;
 
         }
-        x=lastX;
-        y=lastY;
-        row=x/SQUARE_LENGTH;
-        column=y/SQUARE_LENGTH;
+        x = lastX;
+        y = lastY;
+        row = x / SQUARE_LENGTH;
+        column = y / SQUARE_LENGTH;
     }
+
 }
