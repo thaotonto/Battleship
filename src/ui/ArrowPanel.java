@@ -57,7 +57,7 @@ public class ArrowPanel extends JPanel {
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
         gridBagConstraints.weighty = 0;
-        gridBagConstraints.insets = new Insets(0,0,-1,0);
+        gridBagConstraints.insets = new Insets(0,0,0,0);
         this.add(exitBtn, gridBagConstraints);
         setVisible(true);
     }
