@@ -16,6 +16,7 @@ public class GameFrame extends JFrame {
     public GameFrame() {
         instance = this;
 
+        setResizable(false);
         setTitle("Battleship");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
