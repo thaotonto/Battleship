@@ -28,24 +28,25 @@ public class ShipLabel extends JLabel {
     private int length;
     private Image imageV;
     private Image imageH;
-//    private int lastX;
-//    private int lastY;
+    private int lastX;
+    private int lastY;
 
-//    public int getLastX() {
-//        return lastX;
-//    }
-//
-//    public void setLastX() {
-//        this.lastX = x;
-//    }
-//
-//    public int getLastY() {
-//        return lastY;
-//    }
-//
-//    public void setLastY() {
-//        this.lastY = y;
-//    }
+    public int getLastX() {
+        return lastX;
+    }
+
+    public void setLastX(int lastX) {
+        this.lastX = lastX;
+    }
+
+    public int getLastY() {
+        return lastY;
+    }
+
+    public void setLastY(int lastY) {
+        this.lastY = lastY;
+    }
+
     //    public ShipLabel(int row, int column, boolean isVertical, int length, Image image) {
 //        this.row = row;
 //        this.column = column;
@@ -79,13 +80,17 @@ public class ShipLabel extends JLabel {
     }
 
     public ShipLabel(int length, int defaultX, int defaultY) {
+        row=column=-1;
         isVertical=true;
         this.length = length;
         this.imageV = Utils.loadImageFromRes("ship" + length + "_v.gif");
         this.imageH = Utils.loadImageFromRes("ship" + length + "_h.gif");
+        x=defaultX;
+        y=defaultY;
         this.defaultX=defaultX;
         this.defaultY=defaultY;
-
+        lastX=defaultX;
+        lastY=defaultY;
         ImageIcon imageIcon;
         imageV = imageV.getScaledInstance(SQUARE_LENGTH, SQUARE_LENGTH * length, Image.SCALE_SMOOTH);
         imageIcon = new ImageIcon(imageV);
@@ -142,5 +147,19 @@ public class ShipLabel extends JLabel {
             rectangle= new Rectangle(x,y,SQUARE_LENGTH*length,SQUARE_LENGTH);
         }
         return rectangle;
+    }
+    public void setBackToLastLocation()
+    {
+        if(lastX==defaultX&&lastY==defaultY)
+        {
+            row=column=-1;
+            x=defaultX;
+            y=defaultY;
+
+        }
+        x=lastX;
+        y=lastY;
+        row=x/SQUARE_LENGTH;
+        column=y/SQUARE_LENGTH;
     }
 }

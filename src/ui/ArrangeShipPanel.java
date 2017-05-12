@@ -127,8 +127,11 @@ public class ArrangeShipPanel extends JPanel implements MouseMotionListener, Mou
         }
 
         currentShip = (ShipLabel) component;
+        currentShip.setLastX(currentShip.getXPixel());
+        currentShip.setLastY(currentShip.getYPixel());
         deltaX = currentShip.getX() - mouseEvent.getX();
         deltaY = currentShip.getY() - mouseEvent.getY();
+
         currentShip.setLocation(mouseEvent.getX() + deltaX, mouseEvent.getY() + deltaY);
         layeredPane.setCursor(Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR));
 
@@ -155,6 +158,7 @@ public class ArrangeShipPanel extends JPanel implements MouseMotionListener, Mou
         if(checkIntersect(currentShip))
         {
             System.out.println("intersects");
+            currentShip.setBackToLastLocation();
         }
         currentShip.setLocation(currentShip.getXPixel(),currentShip.getYPixel());
         currentShip = null;
