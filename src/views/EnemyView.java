@@ -39,10 +39,6 @@ public class EnemyView extends JPanel implements MouseListener {
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[i].length; j++) {
                 JLabel square = new JLabel(new ImageIcon(),JLabel.CENTER);
-              
-                JLabel square = new JLabel(new ImageIcon(), JLabel.CENTER);
-                square.setOpaque(false);
-                square.setBackground(Color.white);
                 square.setName(i + " " + j);
                 this.add(square);
                 square.setBorder(new MatteBorder(1, 1, 1, 1, Color.BLACK));
