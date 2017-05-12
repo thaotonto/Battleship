@@ -24,8 +24,8 @@ public class ShipLabel extends JLabel {
     private int defaultY;
     private boolean isVertical;
     private int length;
-    private Image imageV;
-    private Image imageH;
+    private ImageIcon imageV;
+    private ImageIcon imageH;
     private int lastX;
     private int lastY;
 
@@ -81,18 +81,16 @@ public class ShipLabel extends JLabel {
         row = column = -1;
         isVertical = true;
         this.length = length;
-        this.imageV = Utils.loadImageFromRes("ship" + length + "_v.gif");
-        this.imageH = Utils.loadImageFromRes("ship" + length + "_h.gif");
+        this.imageV = new ImageIcon("resources/ship" + length + "_v.gif");
+        this.imageH = new ImageIcon("resources/ship" + length + "_h.gif");
         x = defaultX;
         y = defaultY;
         this.defaultX = defaultX;
         this.defaultY = defaultY;
         lastX = defaultX;
         lastY = defaultY;
-        ImageIcon imageIcon;
-        imageV = imageV.getScaledInstance(SQUARE_LENGTH, SQUARE_LENGTH * length, Image.SCALE_SMOOTH);
-        imageIcon = new ImageIcon(imageV);
-        this.setIcon(imageIcon);
+        imageV.setImage(imageV.getImage().getScaledInstance(SQUARE_LENGTH, SQUARE_LENGTH * length, Image.SCALE_DEFAULT));
+        this.setIcon(imageV);
     }
 
     public void setThings(int row, int column) {
@@ -119,26 +117,24 @@ public class ShipLabel extends JLabel {
                 0,
                 COLUMNS_FOR_CHOOSE_SHIP_PANEL * SQUARE_LENGTH,
                 SQUARE_LENGTH * NUMBER_ROWS))) {
-            isVertical=true;
+            isVertical = true;
             return;
         }
-        imageH = imageH.getScaledInstance(SQUARE_LENGTH * length, SQUARE_LENGTH, Image.SCALE_SMOOTH);
-        ImageIcon imageIcon = new ImageIcon(imageH);
-        this.setIcon(imageIcon);
+        imageH.setImage(imageH.getImage().getScaledInstance(SQUARE_LENGTH * length, SQUARE_LENGTH, Image.SCALE_DEFAULT));
+        this.setIcon(imageH);
         setBounds(x, y, SQUARE_LENGTH * length, SQUARE_LENGTH);
     }
 
     public void toVertical() {
         isVertical = true;
         if (isIntersect(new Rectangle(0,
-                SQUARE_LENGTH*NUMBER_ROWS,
-                SQUARE_LENGTH*NUMBER_COLUMNS,
+                SQUARE_LENGTH * NUMBER_ROWS,
+                SQUARE_LENGTH * NUMBER_COLUMNS,
                 SQUARE_LENGTH))) {
-            isVertical=false;
+            isVertical = false;
             return;
         }
-        ImageIcon imageIcon = new ImageIcon(imageV);
-        this.setIcon(imageIcon);
+        this.setIcon(imageV);
         setBounds(x, y, SQUARE_LENGTH, SQUARE_LENGTH * length);
     }
 
