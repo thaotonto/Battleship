@@ -94,4 +94,8 @@ public class EnemyModel {
         }
         System.out.println("_____________________________________________________________________________");
     }
+
+    public int[][] getEnemyBoard() {
+        return enemyBoard;
+    }
 }
