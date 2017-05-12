@@ -34,8 +34,7 @@ public class EnemyView extends JPanel implements MouseListener {
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[i].length; j++) {
                 JLabel square = new JLabel(new ImageIcon(),JLabel.CENTER);
-                square.setOpaque(false);
-                square.setBackground(Color.white);
+              
                 square.setName(i + " " + j);
                 this.add(square);
                 square.setBorder(new MatteBorder(1, 1, 1, 1, Color.BLACK));
@@ -55,8 +54,6 @@ public class EnemyView extends JPanel implements MouseListener {
         JLabel component = (JLabel) getComponentAt(e.getPoint());
         if (board[row][column] == 1) {
             Image hitIcon = Utils.loadImageFromRes("hit.gif");
-            hitIcon.getScaledInstance(10, 10, Image.SCALE_DEFAULT);
-//            hitIcon.getScaledInstance(PlayerView.SQUARE_LENGTH, PlayerView.SQUARE_LENGTH, Image.SCALE_SMOOTH);
 
             component.setIcon(new ImageIcon(hitIcon));
         } else {

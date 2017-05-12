@@ -1,5 +1,7 @@
 package views;
 
+import models.PlayerModel;
+import models.Ship;
 import models.ShipLabel;
 import ui.ArrowPanel;
 import ui.MainContainer;
@@ -9,6 +11,7 @@ import javax.swing.border.MatteBorder;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Inpriron on 5/11/2017.
@@ -30,7 +33,8 @@ public class PlayerView extends JPanel implements MouseMotionListener, MouseList
     private ShipLabel currentShip;
     private int deltaX;
     private int deltaY;
-
+    private JButton playBtn;
+    private PlayerModel playerModel;
     public PlayerView() {
         setLayout(new BorderLayout());
         layeredPane = new JLayeredPane();
@@ -60,32 +64,62 @@ public class PlayerView extends JPanel implements MouseMotionListener, MouseList
 
     private void buildChooseShipPanel() {
         chooseShipPanel = new JPanel();
-        chooseShipPanel.setLayout(new BorderLayout());
+        chooseShipPanel.setLayout(new GridBagLayout());
         chooseShipPanel.setBounds(SQUARE_LENGTH * NUMBER_COLUMNS, 0, COLUMNS_FOR_CHOOSE_SHIP_PANEL * SQUARE_LENGTH, SQUARE_LENGTH * NUMBER_ROWS);
         chooseShipPanel.setBackground(Color.gray);
         layeredPane.add(chooseShipPanel, new Integer(0));
-        JButton playBtn = new JButton("PLAY");
+        playBtn = new JButton("PLAY");
         playBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                int[][] playerBoard = new int[NUMBER_ROWS][NUMBER_COLUMNS];
+                List<Ship> ships = new ArrayList<>();
+                Ship ship;
+                for (int i = 0; i < shipList.size(); i++) {
+                    ShipLabel shipLabel = shipList.get(i);
+                    ship = new Ship(shipLabel.getLength());
+                    if (shipLabel.isVertical()) {
+                        ship.setOrientation(0);
+                        for (int j = 0; j < shipLabel.getLength(); j++) {
+                            int[] dot = new int[2];
+                            dot[0] = shipLabel.getRow() + j;
+                            dot[1] = shipLabel.getColumn();
+                            playerBoard[dot[0]][dot[1]] = 1;
+                            ship.getDotList().add(dot);
+                        }
+                    } else {
+                        ship.setOrientation(0);
+                        for (int j = 0; j < shipLabel.getLength(); j++) {
+                            int[] dot = new int[2];
+                            dot[0] = shipLabel.getRow() ;
+                            dot[1] = shipLabel.getColumn()+j;
+                            playerBoard[dot[0]][dot[1]] = 1;
+                            ship.getDotList().add(dot);
+                        }
+                    }
+                    ships.add(ship);
+                }
+                playerModel= new PlayerModel(playerBoard,ships);
+
                 layeredPane.remove(chooseShipPanel);
                 // TODO: add arrow panel
                 arrowPanel = new ArrowPanel();
                 arrowPanel.setBounds(SQUARE_LENGTH * NUMBER_COLUMNS, 0, COLUMNS_FOR_CHOOSE_SHIP_PANEL * SQUARE_LENGTH, SQUARE_LENGTH * NUMBER_ROWS);
-                layeredPane.add(arrowPanel,new Integer(0));
+                layeredPane.add(arrowPanel, new Integer(0));
                 layeredPane.removeMouseListener(PlayerView.this);
                 layeredPane.removeMouseMotionListener(PlayerView.this);
                 MainContainer.getInstance().showPanel(MainContainer.TAG_GAME, true);
             }
         });
-        chooseShipPanel.add(playBtn, BorderLayout.PAGE_END);
+        chooseShipPanel.add(playBtn);
+        playBtn.setVisible(false);
     }
 
     private void initShipLabel() {
 
         createShipLabel(5, (SQUARE_LENGTH * (NUMBER_COLUMNS + 1)), SQUARE_LENGTH / 3);
         createShipLabel(2, (SQUARE_LENGTH * (NUMBER_COLUMNS + 3)), SQUARE_LENGTH / 3);
-        createShipLabel(2, (SQUARE_LENGTH * (NUMBER_COLUMNS + 3)), SQUARE_LENGTH / 3 + SQUARE_LENGTH * 2 + SQUARE_LENGTH / 3);
+        createShipLabel(3, (SQUARE_LENGTH * (NUMBER_COLUMNS + 3)), SQUARE_LENGTH / 3 + SQUARE_LENGTH * 2 + SQUARE_LENGTH / 3);
         createShipLabel(3, (SQUARE_LENGTH * (NUMBER_COLUMNS + 1)), SQUARE_LENGTH / 3 + SQUARE_LENGTH * 5 + SQUARE_LENGTH / 3);
         createShipLabel(4, (SQUARE_LENGTH * (NUMBER_COLUMNS + 3)), SQUARE_LENGTH / 3 + SQUARE_LENGTH * 5 + SQUARE_LENGTH / 3);
 
@@ -115,6 +149,7 @@ public class PlayerView extends JPanel implements MouseMotionListener, MouseList
 
     @Override
     public void mouseClicked(MouseEvent mouseEvent) {
+
         if (SwingUtilities.isRightMouseButton(mouseEvent)) {
 
             if (mouseEvent.getX() >= 0 && mouseEvent.getX() <= SQUARE_LENGTH * NUMBER_COLUMNS) {
@@ -127,11 +162,19 @@ public class PlayerView extends JPanel implements MouseMotionListener, MouseList
                 else
                     currentShip.toVertical();
 
-
             }
         }
     }
 
+    //    public void print()
+//    {
+//        for (int i = 0; i < shipList.size(); i++) {
+//            System.out.println(" "+shipList.get(i).getRow());
+//            System.out.println(" "+shipList.get(i).getColumn());
+//        }
+//        System.out.println("_______________________________");
+//
+//    }
     @Override
     public void mousePressed(MouseEvent mouseEvent) {
         if (SwingUtilities.isRightMouseButton(mouseEvent)) return;
@@ -158,9 +201,10 @@ public class PlayerView extends JPanel implements MouseMotionListener, MouseList
         layeredPane.setCursor(null);
         if (currentShip == null) return;
         if (mouseEvent.getX() > SQUARE_LENGTH * NUMBER_COLUMNS) {
-            currentShip.setThings(0, 0);
+            currentShip.reset();
             currentShip.setLocation(currentShip.getDefaultX(), currentShip.getDefaultY());
             layeredPane.setCursor(Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR));
+            playBtn.setVisible(false);
             currentShip = null;
             return;
 
@@ -168,14 +212,26 @@ public class PlayerView extends JPanel implements MouseMotionListener, MouseList
         int topLeftX = mouseEvent.getX() + deltaX + SQUARE_LENGTH / 2;
         int topLeftY = mouseEvent.getY() + deltaY + SQUARE_LENGTH / 2;
 
-        currentShip.setThings(topLeftX / SQUARE_LENGTH, topLeftY / SQUARE_LENGTH);
+        currentShip.setThings(topLeftY / SQUARE_LENGTH, topLeftX / SQUARE_LENGTH);
         if (checkIntersect(currentShip)) {
             System.out.println("intersects");
             currentShip.setBackToLastLocation();
         }
         currentShip.setLocation(currentShip.getXPixel(), currentShip.getYPixel());
         currentShip = null;
+        playBtn.setVisible(isAllShipDeployed());
+
     }
+
+    private boolean isAllShipDeployed() {
+        for (int i = 0; i < shipList.size(); i++) {
+            if (shipList.get(i).getXPixel() == shipList.get(i).getDefaultX()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 
     @Override
     public void mouseEntered(MouseEvent mouseEvent) {

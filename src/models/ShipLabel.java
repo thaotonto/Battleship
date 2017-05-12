@@ -98,10 +98,16 @@ public class ShipLabel extends JLabel {
     public void setThings(int row, int column) {
         this.row = row;
         this.column = column;
-        this.x = row * SQUARE_LENGTH;
-        this.y = column * SQUARE_LENGTH;
+        this.x = column * SQUARE_LENGTH;
+        this.y = row * SQUARE_LENGTH;
     }
-
+    public void reset()
+    {
+        row=-1;
+        column=-1;
+        x=defaultX;
+        y=defaultY;
+    }
 
     public int getXPixel() {
         return x;
@@ -170,4 +176,11 @@ public class ShipLabel extends JLabel {
         column = y / SQUARE_LENGTH;
     }
 
+    public int getRow() {
+        return row;
+    }
+
+    public int getColumn() {
+        return column;
+    }
 }
