@@ -1,7 +1,6 @@
 package ui;
 
 import models.ShipLabel;
-import utils.Utils;
 
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
@@ -20,7 +19,8 @@ public class ArrangeShipPanel extends JPanel implements MouseMotionListener, Mou
     public static final int NUMBER_ROWS = 10;
     public static final int NUMBER_COLUMNS = 10;
     public static final int SQUARE_LENGTH = 30;
-    private  JPanel chooseShipPanel;
+    public static final int COLUMNS_FOR_CHOOSE_SHIP_PANEL = 5;
+    private JPanel chooseShipPanel;
 
     private JLayeredPane layeredPane;
     private JPanel gameBoard;
@@ -31,56 +31,64 @@ public class ArrangeShipPanel extends JPanel implements MouseMotionListener, Mou
     private int deltaY;
 
     public ArrangeShipPanel() {
-
-        Dimension frameSize = new Dimension(SQUARE_LENGTH * NUMBER_ROWS, SQUARE_LENGTH * NUMBER_COLUMNS);
         setLayout(new BorderLayout());
         layeredPane = new JLayeredPane();
-        layeredPane.setPreferredSize(new Dimension(SQUARE_LENGTH * (NUMBER_ROWS+5),(SQUARE_LENGTH*NUMBER_COLUMNS)));
+        layeredPane.setPreferredSize(new Dimension(SQUARE_LENGTH * (NUMBER_COLUMNS + COLUMNS_FOR_CHOOSE_SHIP_PANEL), (SQUARE_LENGTH * NUMBER_ROWS)));
         add(layeredPane);
-        gameBoard = new JPanel();
-        gameBoard.setLayout(new GridLayout(NUMBER_ROWS, NUMBER_COLUMNS));
-
-        gameBoard.setBounds(0, 0, (int) frameSize.getWidth(), (int) frameSize.getHeight());
-        layeredPane.add(gameBoard, new Integer(0));
-        chooseShipPanel= new JPanel();
-        chooseShipPanel.setLayout(null);
-        chooseShipPanel.setBounds(300,0,5*SQUARE_LENGTH,SQUARE_LENGTH*NUMBER_COLUMNS);
-        chooseShipPanel.setBackground(Color.MAGENTA);
-        layeredPane.add(chooseShipPanel,new Integer(0));
         buildGameBoard();
-        shipBoard = new JPanel();
-        shipBoard.setLayout(null);
 
-         shipBoard.setBounds(0, 0, SQUARE_LENGTH * (NUMBER_ROWS+5), SQUARE_LENGTH*NUMBER_COLUMNS);
-        shipBoard.setOpaque(false);
-        layeredPane.add(shipBoard, new Integer(1));
+        buildChooseShipPanel();
+
+        buildShipBoard();
+
         shipList = new ArrayList<>();
 
-        ShipLabel shipLabel=  new ShipLabel( 5, Utils.loadImageFromRes("ship5_v.gif"));
-        shipBoard.add(shipLabel);
-        shipLabel.setBounds(SQUARE_LENGTH*NUMBER_COLUMNS+SQUARE_LENGTH,SQUARE_LENGTH,SQUARE_LENGTH,shipLabel.getLength()*SQUARE_LENGTH);
-
-//        shipLabel=  new ShipLabel( 4, Utils.loadImageFromRes("ship4_v.gif"));
-//        chooseShipPanel.add(shipLabel);
-//        shipLabel.setBounds(SQUARE_LENGTH*2-SQUARE_LENGTH/3,SQUARE_LENGTH,shipLabel.getWidth(),shipLabel.getHeight());
-
-//        shipLabel=  new ShipLabel( 4, Utils.loadImageFromRes("ship3_v.gif"));
-//        chooseShipPanel.add(shipLabel);
-//   shipLabel.setBounds(10,SQUARE_LENGTH,shipLabel.getWidth(),shipLabel.getHeight());
-//        shipList.add(new ShipLabel( 5, Utils.loadImageFromRes("ship5_v.gif")));
-//        shipList.add(new ShipLabel( 4, Utils.loadImageFromRes("ship4_v.gif")));
-//        shipList.add(new ShipLabel( 3, Utils.loadImageFromRes("ship3_v.gif")));
-//        shipList.add(new ShipLabel( 2, Utils.loadImageFromRes("ship3_v.gif")));
-//        shipList.add(new ShipLabel( 2, Utils.loadImageFromRes("ship3_v.gif")));
-
-
+        initShipLabel();
 
         layeredPane.addMouseListener(this);
         layeredPane.addMouseMotionListener(this);
 
     }
 
+    private void buildShipBoard() {
+        shipBoard = new JPanel();
+        shipBoard.setLayout(null);
+        shipBoard.setBounds(0, 0, SQUARE_LENGTH * (NUMBER_COLUMNS + COLUMNS_FOR_CHOOSE_SHIP_PANEL), SQUARE_LENGTH * NUMBER_ROWS);
+        shipBoard.setOpaque(false);
+        layeredPane.add(shipBoard, new Integer(1));
+    }
+
+    private void buildChooseShipPanel() {
+        chooseShipPanel = new JPanel();
+        chooseShipPanel.setLayout(null);
+        chooseShipPanel.setBounds(300, 0, 5 * SQUARE_LENGTH, SQUARE_LENGTH * NUMBER_ROWS);
+        chooseShipPanel.setBackground(Color.MAGENTA);
+        layeredPane.add(chooseShipPanel, new Integer(0));
+    }
+
+    private void initShipLabel() {
+
+
+        createShipLabel(5, (SQUARE_LENGTH * (NUMBER_COLUMNS + 1)), SQUARE_LENGTH / 3);
+        createShipLabel(2, (SQUARE_LENGTH * (NUMBER_COLUMNS + 3)), SQUARE_LENGTH / 3);
+        createShipLabel(2, (SQUARE_LENGTH * (NUMBER_COLUMNS + 3)), SQUARE_LENGTH / 3 + SQUARE_LENGTH * 2 + SQUARE_LENGTH / 3);
+        createShipLabel(3, (SQUARE_LENGTH * (NUMBER_COLUMNS + 1)), SQUARE_LENGTH / 3 + SQUARE_LENGTH * 5 + SQUARE_LENGTH / 3);
+        createShipLabel(4, (SQUARE_LENGTH * (NUMBER_COLUMNS + 3)), SQUARE_LENGTH / 3 + SQUARE_LENGTH * 5 + SQUARE_LENGTH / 3);
+
+    }
+
+    private void createShipLabel(int length, int defaultX, int defaultY) {
+        ShipLabel shipLabel = new ShipLabel(length, defaultX, defaultY);
+        shipBoard.add(shipLabel);
+        shipList.add(shipLabel);
+        shipLabel.setBounds(defaultX, defaultY, SQUARE_LENGTH, length * SQUARE_LENGTH);
+    }
+
     private void buildGameBoard() {
+        gameBoard = new JPanel();
+        gameBoard.setLayout(new GridLayout(NUMBER_ROWS, NUMBER_COLUMNS));
+        gameBoard.setBounds(0, 0, SQUARE_LENGTH * NUMBER_ROWS, SQUARE_LENGTH * NUMBER_COLUMNS);
+        layeredPane.add(gameBoard, new Integer(0));
         for (int i = 0; i < NUMBER_ROWS; i++) {
             for (int j = 0; j < NUMBER_COLUMNS; j++) {
                 JPanel square = new JPanel(new BorderLayout());
@@ -93,34 +101,62 @@ public class ArrangeShipPanel extends JPanel implements MouseMotionListener, Mou
 
     @Override
     public void mouseClicked(MouseEvent mouseEvent) {
+        if (SwingUtilities.isRightMouseButton(mouseEvent)) {
 
+            if (mouseEvent.getX() >= 0 && mouseEvent.getX() <= SQUARE_LENGTH * NUMBER_COLUMNS) {
+                Component component = layeredPane.findComponentAt(mouseEvent.getX(), mouseEvent.getY());
+                if (component instanceof JPanel)
+                    return;
+                currentShip = (ShipLabel) component;
+                if (currentShip.isVertical())
+                    currentShip.toHorizontal();
+                else
+                    currentShip.toVertical();
+
+
+            }
+        }
     }
 
     @Override
     public void mousePressed(MouseEvent mouseEvent) {
+        if (SwingUtilities.isRightMouseButton(mouseEvent)) return;
         Component component = layeredPane.findComponentAt(mouseEvent.getX(), mouseEvent.getY());
         if (component instanceof JPanel) {
             return;
         }
+
         currentShip = (ShipLabel) component;
         deltaX = currentShip.getX() - mouseEvent.getX();
         deltaY = currentShip.getY() - mouseEvent.getY();
         currentShip.setLocation(mouseEvent.getX() + deltaX, mouseEvent.getY() + deltaY);
         layeredPane.setCursor(Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR));
+
+
     }
 
     @Override
     public void mouseReleased(MouseEvent mouseEvent) {
+        if (SwingUtilities.isRightMouseButton(mouseEvent)) return;
         layeredPane.setCursor(null);
         if (currentShip == null) return;
+        if (mouseEvent.getX() > SQUARE_LENGTH * NUMBER_COLUMNS) {
+            currentShip.setThings(0, 0);
+            currentShip.setLocation(currentShip.getDefaultX(), currentShip.getDefaultY());
+            layeredPane.setCursor(Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR));
+            currentShip = null;
+            return;
 
-        int topLeftX = mouseEvent.getX() + deltaX + SQUARE_LENGTH/2;
-        int topLeftY = mouseEvent.getY() + deltaY + SQUARE_LENGTH/2;
-        System.out.println(mouseEvent.getX() + " " + mouseEvent.getY());
-        System.out.println(deltaX + " " + deltaY);
-        System.out.println(topLeftX + " " + topLeftY);
+        }
+        int topLeftX = mouseEvent.getX() + deltaX + SQUARE_LENGTH / 2;
+        int topLeftY = mouseEvent.getY() + deltaY + SQUARE_LENGTH / 2;
+
         currentShip.setThings(topLeftX / SQUARE_LENGTH, topLeftY / SQUARE_LENGTH);
-        currentShip.setLocation(currentShip.getXPixel(), currentShip.getYPixel());
+        if(checkIntersect(currentShip))
+        {
+            System.out.println("intersects");
+        }
+        currentShip.setLocation(currentShip.getXPixel(),currentShip.getYPixel());
         currentShip = null;
     }
 
@@ -134,10 +170,37 @@ public class ArrangeShipPanel extends JPanel implements MouseMotionListener, Mou
 
     }
 
+    private boolean checkIntersect(ShipLabel curShip) {
+        for (int i = 0; i < shipList.size(); i++) {
+            if(shipList.get(i)!=curShip)
+            {
+                if (curShip.isIntersect(shipList.get(i).getRectangle())) {
+                    return true;
+                }
+            }
+
+        }
+        return false;
+    }
+
     @Override
     public void mouseDragged(MouseEvent mouseEvent) {
+        if (SwingUtilities.isRightMouseButton(mouseEvent)) return;
         if (currentShip != null) {
-            currentShip.setLocation(mouseEvent.getX() + deltaX, mouseEvent.getY() + deltaY);
+            int x = mouseEvent.getX() + deltaX;
+            int y = mouseEvent.getY() + deltaY;
+            if (currentShip.isVertical()) {
+                x = Math.max(0, x);
+                x = Math.min(x, layeredPane.getWidth() - SQUARE_LENGTH);
+                y = Math.max(0, y);
+                y = Math.min(y, layeredPane.getHeight() - SQUARE_LENGTH * currentShip.getLength());
+            } else {
+                x = Math.max(0, x);
+                x = Math.min(x, layeredPane.getWidth() - SQUARE_LENGTH * currentShip.getLength());
+                y = Math.max(0, y);
+                y = Math.min(y, layeredPane.getHeight() - SQUARE_LENGTH);
+            }
+            currentShip.setLocation(x, y);
         }
     }
 
