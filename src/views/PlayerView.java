@@ -90,7 +90,7 @@ public class PlayerView extends JPanel implements MouseMotionListener, MouseList
                             ship.getDotList().add(dot);
                         }
                     } else {
-                        ship.setOrientation(0);
+                        ship.setOrientation(1);
                         for (int j = 0; j < shipLabel.getLength(); j++) {
                             int[] dot = new int[2];
                             dot[0] = shipLabel.getRow();
@@ -104,7 +104,6 @@ public class PlayerView extends JPanel implements MouseMotionListener, MouseList
                 playerModel = new PlayerModel(playerBoard, ships);
 
                 layeredPane.remove(chooseShipPanel);
-                // TODO: add arrow panel
                 arrowPanel = new ArrowPanel();
                 arrowPanel.setBounds(SQUARE_LENGTH * NUMBER_COLUMNS, 0, COLUMNS_FOR_CHOOSE_SHIP_PANEL * SQUARE_LENGTH, SQUARE_LENGTH * NUMBER_ROWS);
                 layeredPane.add(arrowPanel, new Integer(0));
@@ -151,28 +150,21 @@ public class PlayerView extends JPanel implements MouseMotionListener, MouseList
 
     @Override
     public void mouseClicked(MouseEvent mouseEvent) {
-
         if (SwingUtilities.isRightMouseButton(mouseEvent)) {
-
             if (mouseEvent.getX() >= 0 && mouseEvent.getX() <= SQUARE_LENGTH * NUMBER_COLUMNS) {
                 Component component = layeredPane.findComponentAt(mouseEvent.getX(), mouseEvent.getY());
                 if (component instanceof JPanel)
                     return;
                 currentShip = (ShipLabel) component;
-                if (currentShip.isVertical())
-                {
+                if (currentShip.isVertical()) {
                     currentShip.toHorizontal();
-                    if(checkIntersect(currentShip))
+                    if (checkIntersect(currentShip))
                         currentShip.toVertical();
-                }
-                else
-                {
+                } else {
                     currentShip.toVertical();
-                    if(checkIntersect(currentShip))
+                    if (checkIntersect(currentShip))
                         currentShip.toHorizontal();
                 }
-
-
             }
         }
     }

@@ -91,7 +91,7 @@ public class ShipLabel extends JLabel {
         lastX = defaultX;
         lastY = defaultY;
         imageV.setImage(imageV.getImage().getScaledInstance(SQUARE_LENGTH, SQUARE_LENGTH * length, Image.SCALE_DEFAULT));
-        imageH.setImage(imageH.getImage().getScaledInstance(SQUARE_LENGTH*length, SQUARE_LENGTH , Image.SCALE_DEFAULT));
+        imageH.setImage(imageH.getImage().getScaledInstance(SQUARE_LENGTH * length, SQUARE_LENGTH, Image.SCALE_DEFAULT));
         this.setIcon(imageV);
     }
 
@@ -101,15 +101,15 @@ public class ShipLabel extends JLabel {
         this.x = column * SQUARE_LENGTH;
         this.y = row * SQUARE_LENGTH;
     }
-    public void reset()
-    {
-        row=-1;
-        column=-1;
-        x=defaultX;
-        y=defaultY;
-        isVertical=true;
+
+    public void reset() {
+        row = -1;
+        column = -1;
+        x = defaultX;
+        y = defaultY;
+        isVertical = true;
         this.setIcon(imageV);
-        setBounds(x, y, SQUARE_LENGTH , SQUARE_LENGTH*length);
+        setBounds(x, y, SQUARE_LENGTH, SQUARE_LENGTH * length);
     }
 
     public int getXPixel() {

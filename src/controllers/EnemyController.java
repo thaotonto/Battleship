@@ -19,4 +19,8 @@ public class EnemyController {
     public EnemyView getEnemyView() {
         return enemyView;
     }
+
+    public EnemyModel getEnemyModel() {
+        return enemyModel;
+    }
 }
