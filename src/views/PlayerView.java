@@ -35,6 +35,7 @@ public class PlayerView extends JPanel implements MouseMotionListener, MouseList
     private int deltaY;
     private JButton playBtn;
     private PlayerModel playerModel;
+
     public PlayerView() {
         setLayout(new BorderLayout());
         layeredPane = new JLayeredPane();
@@ -92,15 +93,15 @@ public class PlayerView extends JPanel implements MouseMotionListener, MouseList
                         ship.setOrientation(0);
                         for (int j = 0; j < shipLabel.getLength(); j++) {
                             int[] dot = new int[2];
-                            dot[0] = shipLabel.getRow() ;
-                            dot[1] = shipLabel.getColumn()+j;
+                            dot[0] = shipLabel.getRow();
+                            dot[1] = shipLabel.getColumn() + j;
                             playerBoard[dot[0]][dot[1]] = 1;
                             ship.getDotList().add(dot);
                         }
                     }
                     ships.add(ship);
                 }
-                playerModel= new PlayerModel(playerBoard,ships);
+                playerModel = new PlayerModel(playerBoard, ships);
 
                 layeredPane.remove(chooseShipPanel);
                 // TODO: add arrow panel
@@ -201,26 +202,65 @@ public class PlayerView extends JPanel implements MouseMotionListener, MouseList
         if (SwingUtilities.isRightMouseButton(mouseEvent)) return;
         layeredPane.setCursor(null);
         if (currentShip == null) return;
-        if (mouseEvent.getX() > SQUARE_LENGTH * NUMBER_COLUMNS) {
-            currentShip.reset();
-            currentShip.setLocation(currentShip.getDefaultX(), currentShip.getDefaultY());
-            layeredPane.setCursor(Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR));
-            playBtn.setVisible(false);
-            currentShip = null;
-            return;
 
+        int x = mouseEvent.getX() + deltaX;
+        int y = mouseEvent.getY() + deltaY;
+        if (currentShip.isVertical()) {
+            x = Math.max(0, x);
+            x = Math.min(x, layeredPane.getWidth() - SQUARE_LENGTH);
+            y = Math.max(0, y);
+            y = Math.min(y, layeredPane.getHeight() - SQUARE_LENGTH * currentShip.getLength());
+        } else {
+            x = Math.max(0, x);
+            x = Math.min(x, layeredPane.getWidth() - SQUARE_LENGTH * currentShip.getLength());
+            y = Math.max(0, y);
+            y = Math.min(y, layeredPane.getHeight() - SQUARE_LENGTH);
         }
-        int topLeftX = mouseEvent.getX() + deltaX + SQUARE_LENGTH / 2;
-        int topLeftY = mouseEvent.getY() + deltaY + SQUARE_LENGTH / 2;
 
-        currentShip.setThings(topLeftY / SQUARE_LENGTH, topLeftX / SQUARE_LENGTH);
+        x = x + SQUARE_LENGTH / 2;
+        y = y + SQUARE_LENGTH / 2;
+        if (currentShip.isVertical()) {
+            if (x > SQUARE_LENGTH * NUMBER_COLUMNS) {
+                currentShip.reset();
+                playBtn.setVisible(false);
+                currentShip = null;
+                return;
+
+            }
+
+        } else {
+            if (x + currentShip.getLength() * SQUARE_LENGTH > SQUARE_LENGTH * NUMBER_COLUMNS) {
+                System.out.println("wat");
+                currentShip.reset();
+                playBtn.setVisible(false);
+                currentShip = null;
+                return;
+            }
+        }
+        currentShip.setThings(y / SQUARE_LENGTH, x / SQUARE_LENGTH);
         if (checkIntersect(currentShip)) {
-            System.out.println("intersects");
             currentShip.setBackToLastLocation();
         }
         currentShip.setLocation(currentShip.getXPixel(), currentShip.getYPixel());
         currentShip = null;
         playBtn.setVisible(isAllShipDeployed());
+
+//
+//        if (x  > SQUARE_LENGTH * NUMBER_COLUMNS) {
+//            currentShip.reset();
+//            currentShip.setLocation(currentShip.getDefaultX(), currentShip.getDefaultY());
+//            layeredPane.setCursor(Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR));
+//            playBtn.setVisible(false);
+//            currentShip = null;
+//            return;
+//
+//        }
+
+
+//        int topLeftX = mouseEvent.getX() + deltaX + SQUARE_LENGTH / 2;
+//        int topLeftY = mouseEvent.getY() + deltaY + SQUARE_LENGTH / 2;
+//
+//
 
     }
 
