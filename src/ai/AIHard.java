@@ -68,6 +68,7 @@ public class AIHard extends AI {
                     Move curShot;
                     curShot = priorityList.get(random.nextInt(priorityList.size()));
                     if (isHorizontalPriority(curShot)) { // if that move is in horizontalPriority
+                        System.out.println("Horizontal Priority");
                         if (isHit(curShot)) { // if hit only check horizontalPriority, clear vertical and add new priority
                             verticalPriority.clear();
                             System.out.println("HIT");
@@ -79,7 +80,7 @@ public class AIHard extends AI {
                         }
                         horizontalPriority.remove(horizontalPriority.indexOf(curShot)); // remove move from priority
                     } else if (isVerticalPriority(curShot)) {
-
+                        System.out.println("Vertical Priority");
                         if (isHit(curShot)) {
                             horizontalPriority.clear();
                             System.out.println("HIT");

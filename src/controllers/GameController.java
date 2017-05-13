@@ -16,7 +16,7 @@ public class GameController {
     public GameController(PlayerController playerController, EnemyController enemyController) {
         this.playerController = playerController;
         this.enemyController = enemyController;
-        ai = getAI(1);
+        ai = getAI(playerController.getPlayerView().getAiLevelBox().getSelectedIndex());
         thread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -48,8 +48,10 @@ public class GameController {
     public AI getAI(int aiLevel) {
         AI ai;
         if (aiLevel == 0) {
+            System.out.println("Easy Mode");
             ai = new AIEasy(playerController.getPlayerModel().getShipList(), playerController.getPlayerModel().getPlayerBoard());
         } else {
+            System.out.println("Hard Mode");
             ai = new AIHard(playerController.getPlayerModel().getShipList(), playerController.getPlayerModel().getPlayerBoard());
         }
         return ai;

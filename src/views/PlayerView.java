@@ -34,6 +34,8 @@ public class PlayerView extends JPanel implements MouseMotionListener, MouseList
     private int deltaX;
     private int deltaY;
     private JButton playBtn;
+    private JLabel difficultyLabel;
+    private JComboBox aiLevelBox;
     private PlayerModel playerModel;
 
     public PlayerView() {
@@ -112,7 +114,31 @@ public class PlayerView extends JPanel implements MouseMotionListener, MouseList
                 MainContainer.getInstance().showPanel(MainContainer.TAG_GAME, true);
             }
         });
-        chooseShipPanel.add(playBtn);
+        difficultyLabel = new JLabel("DIFFICULTY");
+        difficultyLabel.setHorizontalAlignment(JLabel.CENTER);
+        difficultyLabel.setForeground(Color.WHITE);
+        difficultyLabel.setFont(new Font("CONSOLAS", Font.BOLD, 14));
+        String[] aiLevel = {"Easy", "Hard"};
+        aiLevelBox = new JComboBox(aiLevel);
+        aiLevelBox.setSelectedIndex(0);
+        GridBagConstraints constraint = new GridBagConstraints();
+        constraint.gridx = 0;
+        constraint.gridy = 1;
+        constraint.weighty = 0.1;
+        constraint.insets = new Insets(75,0,0,0);
+        chooseShipPanel.add(difficultyLabel, constraint);
+        constraint.gridx = 0;
+        constraint.gridy = 2;
+        constraint.weighty = 0;
+        constraint.insets = new Insets(0,0,0,0);
+        chooseShipPanel.add(aiLevelBox, constraint);
+        constraint.gridx = 0;
+        constraint.gridy = 3;
+        constraint.weighty = 1;
+        constraint.insets = new Insets(0,0,0,0);
+        chooseShipPanel.add(playBtn, constraint);
+        difficultyLabel.setVisible(false);
+        aiLevelBox.setVisible(false);
         playBtn.setVisible(false);
     }
 
@@ -259,6 +285,8 @@ public class PlayerView extends JPanel implements MouseMotionListener, MouseList
             if (x > SQUARE_LENGTH * NUMBER_COLUMNS) {
                 currentShip.reset();
                 playBtn.setVisible(false);
+                difficultyLabel.setVisible(false);
+                aiLevelBox.setVisible(false);
                 currentShip = null;
                 return;
             }
@@ -266,6 +294,8 @@ public class PlayerView extends JPanel implements MouseMotionListener, MouseList
             if (x + currentShip.getLength() * SQUARE_LENGTH > SQUARE_LENGTH * NUMBER_COLUMNS) {
                 currentShip.reset();
                 playBtn.setVisible(false);
+                difficultyLabel.setVisible(false);
+                aiLevelBox.setVisible(false);
                 currentShip = null;
                 return;
             }
@@ -276,9 +306,10 @@ public class PlayerView extends JPanel implements MouseMotionListener, MouseList
         }
         currentShip.setLocation(currentShip.getXPixel(), currentShip.getYPixel());
         currentShip = null;
+
+        difficultyLabel.setVisible(isAllShipDeployed());
+        aiLevelBox.setVisible(isAllShipDeployed());
         playBtn.setVisible(isAllShipDeployed());
-
-
     }
 
     private boolean isAllShipDeployed() {
@@ -344,5 +375,9 @@ public class PlayerView extends JPanel implements MouseMotionListener, MouseList
 
     public ArrowPanel getArrowPanel() {
         return arrowPanel;
+    }
+
+    public JComboBox getAiLevelBox() {
+        return aiLevelBox;
     }
 }
