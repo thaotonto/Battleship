@@ -148,6 +148,42 @@ public class PlayerView extends JPanel implements MouseMotionListener, MouseList
         }
     }
 
+    public void updateBoard(int row, int column) {
+        JLabel jLabel = new JLabel(new ImageIcon(), JLabel.CENTER);
+        System.out.println("Hit: " + checkHit(row, column));
+        jLabel.setBorder(new MatteBorder(1, 1, 1, 1, Color.BLACK));
+        if (checkHit(row, column)) {
+            ImageIcon explosionIcon = new ImageIcon(("resources/explosion.gif"));
+            explosionIcon.getImage().getScaledInstance(SQUARE_LENGTH, SQUARE_LENGTH, Image.SCALE_DEFAULT);
+            JLabel explosionLabel = new JLabel(explosionIcon, JLabel.CENTER);
+            explosionLabel.setBounds((column) * SQUARE_LENGTH, (row) * SQUARE_LENGTH, SQUARE_LENGTH, SQUARE_LENGTH);
+            layeredPane.add(explosionLabel, new Integer(3));
+            long start = System.currentTimeMillis();
+            long end = System.currentTimeMillis();
+            while (end - start < 800) {
+                end = System.currentTimeMillis();
+            }
+            layeredPane.remove(explosionLabel);
+            jLabel.setIcon(new ImageIcon("resources/hit.gif"));
+            jLabel.setBounds((column) * SQUARE_LENGTH, (row) * SQUARE_LENGTH, SQUARE_LENGTH, SQUARE_LENGTH);
+            layeredPane.add(jLabel, new Integer(2));
+        } else {
+            jLabel.setIcon(new ImageIcon("resources/miss.gif"));
+            jLabel.setBounds(column * SQUARE_LENGTH, row * SQUARE_LENGTH, SQUARE_LENGTH, SQUARE_LENGTH);
+            layeredPane.add(jLabel, JLayeredPane.DRAG_LAYER);
+        }
+    }
+
+    public boolean checkHit(int row, int column) {
+        List<Ship> ships = playerModel.getShipList();
+        for (Ship ship : ships) {
+            for (int[] shipDot : ship.getDotList()) {
+                if (column == shipDot[1] && row == shipDot[0]) return true;
+            }
+        }
+        return false;
+    }
+
     @Override
     public void mouseClicked(MouseEvent mouseEvent) {
         if (SwingUtilities.isRightMouseButton(mouseEvent)) {
@@ -195,7 +231,6 @@ public class PlayerView extends JPanel implements MouseMotionListener, MouseList
         currentShip.setLocation(mouseEvent.getX() + deltaX, mouseEvent.getY() + deltaY);
         layeredPane.setCursor(Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR));
 
-
     }
 
     @Override
@@ -226,9 +261,7 @@ public class PlayerView extends JPanel implements MouseMotionListener, MouseList
                 playBtn.setVisible(false);
                 currentShip = null;
                 return;
-
             }
-
         } else {
             if (x + currentShip.getLength() * SQUARE_LENGTH > SQUARE_LENGTH * NUMBER_COLUMNS) {
                 currentShip.reset();
@@ -275,7 +308,6 @@ public class PlayerView extends JPanel implements MouseMotionListener, MouseList
                     return true;
                 }
             }
-
         }
         return false;
     }
@@ -306,12 +338,11 @@ public class PlayerView extends JPanel implements MouseMotionListener, MouseList
 
     }
 
-    public static void main(String[] args) {
-        JFrame frame = new JFrame();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.add(new PlayerView());
-        frame.pack();
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
+    public PlayerModel getPlayerModel() {
+        return playerModel;
+    }
+
+    public ArrowPanel getArrowPanel() {
+        return arrowPanel;
     }
 }

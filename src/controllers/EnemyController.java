@@ -1,5 +1,8 @@
 package controllers;
 
+import ai.AI;
+import ai.AIEasy;
+import ai.AIHard;
 import models.EnemyModel;
 import views.EnemyView;
 
@@ -23,4 +26,5 @@ public class EnemyController {
     public EnemyModel getEnemyModel() {
         return enemyModel;
     }
+
 }

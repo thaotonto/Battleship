@@ -1,5 +1,6 @@
 package ui;
 
+import controllers.PlayerController;
 import gamemain.GameFrame;
 import views.PlayerView;
 
@@ -60,7 +61,8 @@ public class MainContainer {
         } else if (tag.equals(TAG_INSTRUCTION)) {
             showInstruction();
         } else if (tag.equals(TAG_GAME)) {
-            gamePanel = new GamePanel(playerView);
+            PlayerController playerController = new PlayerController(playerView.getPlayerModel(),playerView);
+            gamePanel = new GamePanel(playerController);
             GameFrame.getInstance().setPanel(gamePanel);
         }
     }

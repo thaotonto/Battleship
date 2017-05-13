@@ -1,6 +1,8 @@
 package ui;
 
 import controllers.EnemyController;
+import controllers.GameController;
+import controllers.PlayerController;
 import views.PlayerView;
 
 import javax.swing.*;
@@ -12,11 +14,12 @@ import java.awt.*;
 public class GamePanel extends JPanel {
     private EnemyController enemyController;
 
-    public GamePanel(PlayerView playerView) {
+    public GamePanel(PlayerController playerController) {
         setLayout(new BorderLayout());
-        add(playerView, BorderLayout.LINE_START);
+        add(playerController.getPlayerView(), BorderLayout.LINE_START);
         enemyController = new EnemyController();
         add(enemyController.getEnemyView(), BorderLayout.LINE_END);
+        GameController gameController = new GameController(playerController,enemyController);
     }
 
 }

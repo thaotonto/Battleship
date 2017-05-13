@@ -19,11 +19,12 @@ public abstract class AI {
     public AI(List<Ship> shipList, int[][] battleMap) { // pass a map
         this.battleMap = battleMap;
         this.shipList = new ArrayList<>();
-        for (Ship el: shipList){
-            int x = el.getDotList().get(0)[0];
-            int y = el.getDotList().get(0)[1];
-            List<Move> ship = createShip(x,y,el.getShipLength(),el.getOrientation());
+        for (Ship el : shipList) {
+            int x = el.getDotList().get(0)[1];
+            int y = el.getDotList().get(0)[0];
+            List<Move> ship = createShip(x, y, el.getShipLength(), el.getOrientation());
             this.shipList.add(ship);
+            System.out.println(el.getDotList().get(0)[1] + " " + el.getDotList().get(0)[0]);
         }
     }
 
@@ -42,6 +43,7 @@ public abstract class AI {
         } while (isShoot(x, y));
         Move move = new Move(x, y);
         shootMove.add(move);
+        System.out.println("Shoot: " + x + " " + y);
         return move;
     }
 
@@ -56,8 +58,9 @@ public abstract class AI {
 
     public boolean isDestroy(Move move) { // check if a move destroy the whole ship
         if (isHit(move)) {
-            for(List<Move> ship : shipList){
-                if (ship.contains(move)) return isShrink(ship);
+            for (List<Move> ship : shipList) {
+                Move temp = new Move(move.getY(),move.getX());
+                if (ship.contains(temp)) return isShrink(ship);
             }
         }
         return false;
@@ -65,7 +68,8 @@ public abstract class AI {
 
     public boolean isShrink(List<Move> ship) {
         for (Move m : ship) {
-            if (!shootMove.contains(m))
+            Move temp = new Move(m.getY(),m.getX());
+            if (!shootMove.contains(temp))
                 return false;
         }
         return true;
@@ -75,17 +79,21 @@ public abstract class AI {
         return (battleMap[move.getX()][move.getY()] == 1);
     }
 
-    public List<Move> createShip(int x, int y, int length, int vector) { // vector = 0: vertical, vector = 1: horizontal
+    public List<Move> createShip(int x, int y, int length, int orientation) { // orientation = 0: vertical // orientation = 1: horizontal
         List<Move> result = new ArrayList<>();
-        if (vector == 1) {
+        if (orientation == 1) {
             for (int i = x; i < x + length; i++) {
                 result.add(new Move(i, y));
             }
-        } else if (vector == 0) {
+        } else if (orientation == 0) {
             for (int i = y; i < y + length; i++) {
                 result.add(new Move(x, i));
             }
         }
         return result;
+    }
+
+    public Move getLastShot() {
+        return lastShot;
     }
 }

@@ -15,4 +15,12 @@ public class PlayerModel {
         this.playerBoard = playerBoard;
         this.shipList = shipList;
     }
+
+    public int[][] getPlayerBoard() {
+        return playerBoard;
+    }
+
+    public List<Ship> getShipList() {
+        return shipList;
+    }
 }
