@@ -160,9 +160,18 @@ public class PlayerView extends JPanel implements MouseMotionListener, MouseList
                     return;
                 currentShip = (ShipLabel) component;
                 if (currentShip.isVertical())
+                {
                     currentShip.toHorizontal();
+                    if(checkIntersect(currentShip))
+                        currentShip.toVertical();
+                }
                 else
+                {
                     currentShip.toVertical();
+                    if(checkIntersect(currentShip))
+                        currentShip.toHorizontal();
+                }
+
 
             }
         }
@@ -230,7 +239,6 @@ public class PlayerView extends JPanel implements MouseMotionListener, MouseList
 
         } else {
             if (x + currentShip.getLength() * SQUARE_LENGTH > SQUARE_LENGTH * NUMBER_COLUMNS) {
-                System.out.println("wat");
                 currentShip.reset();
                 playBtn.setVisible(false);
                 currentShip = null;
@@ -245,22 +253,6 @@ public class PlayerView extends JPanel implements MouseMotionListener, MouseList
         currentShip = null;
         playBtn.setVisible(isAllShipDeployed());
 
-//
-//        if (x  > SQUARE_LENGTH * NUMBER_COLUMNS) {
-//            currentShip.reset();
-//            currentShip.setLocation(currentShip.getDefaultX(), currentShip.getDefaultY());
-//            layeredPane.setCursor(Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR));
-//            playBtn.setVisible(false);
-//            currentShip = null;
-//            return;
-//
-//        }
-
-
-//        int topLeftX = mouseEvent.getX() + deltaX + SQUARE_LENGTH / 2;
-//        int topLeftY = mouseEvent.getY() + deltaY + SQUARE_LENGTH / 2;
-//
-//
 
     }
 
