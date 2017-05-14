@@ -43,7 +43,7 @@ public class ArrowPanel extends JPanel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                flipArrow();
+                MainContainer.getInstance().showInstruction();
             }
         });
         JButton exitBtn = new JButton("EXIT");
