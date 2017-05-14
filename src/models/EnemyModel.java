@@ -72,6 +72,7 @@ public class EnemyModel {
                             break;
                     }
                 } while (enemyBoard[dot[0]][dot[1]] != 0 || repeat);
+                if (loopCount > 200) break;
                 ship.getDotList().add(dot);
             }
             enemyBoard[dot[0]][dot[1]] = 1;
