@@ -1,5 +1,6 @@
 package views;
 
+import models.EnemyModel;
 import utils.Utils;
 
 import javax.swing.*;
@@ -19,9 +20,11 @@ public class EnemyView extends JPanel implements MouseListener {
     private Cursor crosshairCursor;
     private int[] lastMove;
     private ArrayList<Component> guessedList;
+    private EnemyModel enemyModel;
 
-    public EnemyView(int[][] board) {
-        this.board = board;
+    public EnemyView(EnemyModel enemyModel) {
+        this.enemyModel = enemyModel;
+        this.board = enemyModel.getEnemyBoard();
         guessedList = new ArrayList<>();
         lastMove = new int[2];
         lastMove[0] = -1;
@@ -69,6 +72,7 @@ public class EnemyView extends JPanel implements MouseListener {
                 if (board[row][column] == 1) {
                     Image hitIcon = Utils.loadImageFromRes("hit.gif");
                     component.setIcon(new ImageIcon(hitIcon));
+                    enemyModel.getHit(row,column);
                 } else {
                     ImageIcon missIcon = new ImageIcon("resources/miss.gif");
                     component.setIcon(missIcon);
@@ -79,6 +83,7 @@ public class EnemyView extends JPanel implements MouseListener {
             }
         }
     }
+
 
     @Override
     public void mouseReleased(MouseEvent e) {
@@ -104,4 +109,7 @@ public class EnemyView extends JPanel implements MouseListener {
         lastMove[1] = -1;
     }
 
+    public void removeMouse() {
+        removeMouseListener(this);
+    }
 }

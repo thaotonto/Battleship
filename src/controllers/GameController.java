@@ -3,6 +3,11 @@ package controllers;
 import ai.AI;
 import ai.AIEasy;
 import ai.AIHard;
+import models.EnemyModel;
+import ui.ArrowPanel;
+import views.EnemyView;
+
+import java.awt.event.MouseListener;
 
 /**
  * Created by Hoang on 5/13/2017.
@@ -12,6 +17,7 @@ public class GameController {
     private EnemyController enemyController;
     private AI ai;
     private Thread thread;
+
 
     public GameController(PlayerController playerController, EnemyController enemyController) {
         this.playerController = playerController;
@@ -26,6 +32,14 @@ public class GameController {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
+                    if (playerController.getPlayerModel().isEnd() || enemyController.getEnemyModel().isEnd()) {
+                        enemyController.getEnemyView().removeMouse();
+                        if (playerController.getPlayerModel().isEnd()) {
+                            playerController.getPlayerView().getArrowPanel().gameOver(ArrowPanel.ENEMY_WIN);
+                        } else {
+                            playerController.getPlayerView().getArrowPanel().gameOver(ArrowPanel.PLAYER_WIN);
+                        }
+                    } else
                     if (enemyController.getEnemyView().getLastMove()[0] != -1 && enemyController.getEnemyView().getLastMove()[1] != -1) {
                         playerController.getPlayerView().getArrowPanel().flipArrow();
                         ai.shot();

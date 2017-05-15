@@ -12,6 +12,8 @@ import java.awt.event.MouseListener;
 public class ArrowPanel extends JPanel {
     private JLabel arrowLabel;
     private boolean flag = false;
+    public static final int PLAYER_WIN = 0;
+    public static final int ENEMY_WIN = 1;
 
     public ArrowPanel() {
         GridBagLayout gridBagLayout = new GridBagLayout();
@@ -46,12 +48,12 @@ public class ArrowPanel extends JPanel {
                 MainContainer.getInstance().showInstruction();
             }
         });
-        JButton exitBtn = new JButton("EXIT");
+        JButton exitBtn = new JButton("RESTART");
         exitBtn.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                System.exit(0);
+                MainContainer.getInstance().showPanel(MainContainer.TAG_START,true);
             }
         });
         gridBagConstraints.gridx = 0;
@@ -69,6 +71,18 @@ public class ArrowPanel extends JPanel {
         } else {
             arrowLabel.setIcon(new ImageIcon("resources/arrow_left.png"));
             flag = false;
+        }
+    }
+
+    public void gameOver(int winner){
+        arrowLabel.setIcon(null);
+        switch (winner) {
+            case PLAYER_WIN:
+                arrowLabel.setText("You win!");
+                break;
+            case ENEMY_WIN:
+                arrowLabel.setText("You lose!");
+                break;
         }
     }
 }

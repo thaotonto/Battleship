@@ -12,6 +12,7 @@ public class EnemyModel {
     private int[] mapSize;
     private List<Ship> shipList;
     private Random random = new Random();
+    private boolean end;
 
     public EnemyModel(int[][] enemyBoard, int[] mapSize) {
         this.enemyBoard = enemyBoard;
@@ -23,17 +24,18 @@ public class EnemyModel {
 
 
     private void setupBoard() {
-        genShip(2);
-        genShip(3);
-        genShip(3);
-        genShip(4);
-        genShip(5);
+        if (genShip(5))
+            if (genShip(4))
+                if (genShip(3))
+                    if (genShip(3))
+                        genShip(2);
     }
 
-    private void genShip(int shipLength) {
+    private boolean genShip(int shipLength) {
         Ship ship = new Ship(shipLength);
+        int loopCount = 0;
         for (int i = 0; i < shipLength; i++) {
-            int loopCount = 0;
+            loopCount = 0;
             int[] dot = new int[2];
             if (i == 0) {
                 do {
@@ -48,8 +50,9 @@ public class EnemyModel {
                     loopCount++;
                     if (loopCount > 200) {
                         ship.getDotList().clear();
+                        shipList.clear();
                         clearMap();
-                        break;
+                        return false;
                     }
                     int getDot = random.nextInt(ship.getDotList().size());
                     int[] oldDot = ship.getDotList().get(getDot);
@@ -72,12 +75,12 @@ public class EnemyModel {
                             break;
                     }
                 } while (enemyBoard[dot[0]][dot[1]] != 0 || repeat);
-                if (loopCount > 200) break;
                 ship.getDotList().add(dot);
             }
             enemyBoard[dot[0]][dot[1]] = 1;
         }
         shipList.add(ship);
+        return true;
     }
 
     private void clearMap() {
@@ -86,17 +89,41 @@ public class EnemyModel {
     }
 
     public void showBoard() {
+        int count = 0;
         System.out.println("________________________________________________________________________________");
         for (int i = 0; i < mapSize[0]; i++) {
             for (int j = 0; j < mapSize[1]; j++) {
+                if (enemyBoard[i][j] == 1) count++;
                 System.out.print(enemyBoard[i][j] + " ");
             }
             System.out.println();
         }
+        System.out.println(count);
         System.out.println("_____________________________________________________________________________");
     }
 
     public int[][] getEnemyBoard() {
         return enemyBoard;
     }
+
+    public boolean isEnd() {
+        return end;
+    }
+
+    public void getHit(int row, int column) {
+        enemyBoard[row][column] = 0;
+        if (checkEnd()) {
+            this.end = true;
+        }
+    }
+
+    private boolean checkEnd() {
+        for (int i = 0; i < enemyBoard.length; i++) {
+            for (int j = 0; j < enemyBoard[i].length; j++) {
+                if (enemyBoard[i][j] == 1) return false;
+            }
+        }
+        return true;
+    }
+
 }

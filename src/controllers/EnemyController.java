@@ -12,11 +12,11 @@ import views.EnemyView;
 public class EnemyController {
     private EnemyModel enemyModel;
     private EnemyView enemyView;
-    private int[] mapSize = {10,10};
+    private int[] mapSize = {10, 10};
 
     public EnemyController() {
-        this.enemyModel = new EnemyModel(new int[10][10],mapSize);
-        this.enemyView = new EnemyView(enemyModel.getEnemyBoard());
+        this.enemyModel = new EnemyModel(new int[10][10], mapSize);
+        this.enemyView = new EnemyView(enemyModel);
     }
 
     public EnemyView getEnemyView() {

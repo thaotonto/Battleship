@@ -23,6 +23,7 @@ public class PlayerView extends JPanel implements MouseMotionListener, MouseList
     public static final int NUMBER_COLUMNS = 10;
     public static final int SQUARE_LENGTH = 30;
     public static final int COLUMNS_FOR_CHOOSE_SHIP_PANEL = 5;
+
     private JPanel chooseShipPanel;
 
     private JLayeredPane layeredPane;
@@ -125,17 +126,17 @@ public class PlayerView extends JPanel implements MouseMotionListener, MouseList
         constraint.gridx = 0;
         constraint.gridy = 1;
         constraint.weighty = 0.1;
-        constraint.insets = new Insets(75,0,0,0);
+        constraint.insets = new Insets(75, 0, 0, 0);
         chooseShipPanel.add(difficultyLabel, constraint);
         constraint.gridx = 0;
         constraint.gridy = 2;
         constraint.weighty = 0;
-        constraint.insets = new Insets(0,0,0,0);
+        constraint.insets = new Insets(0, 0, 0, 0);
         chooseShipPanel.add(aiLevelBox, constraint);
         constraint.gridx = 0;
         constraint.gridy = 3;
         constraint.weighty = 1;
-        constraint.insets = new Insets(0,0,0,0);
+        constraint.insets = new Insets(0, 0, 0, 0);
         chooseShipPanel.add(playBtn, constraint);
         difficultyLabel.setVisible(false);
         aiLevelBox.setVisible(false);
@@ -204,7 +205,10 @@ public class PlayerView extends JPanel implements MouseMotionListener, MouseList
         List<Ship> ships = playerModel.getShipList();
         for (Ship ship : ships) {
             for (int[] shipDot : ship.getDotList()) {
-                if (column == shipDot[1] && row == shipDot[0]) return true;
+                if (column == shipDot[1] && row == shipDot[0]) {
+                    playerModel.getHit(row, column);
+                    return true;
+                }
             }
         }
         return false;
@@ -380,4 +384,6 @@ public class PlayerView extends JPanel implements MouseMotionListener, MouseList
     public JComboBox getAiLevelBox() {
         return aiLevelBox;
     }
+
+
 }
