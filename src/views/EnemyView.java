@@ -21,6 +21,8 @@ public class EnemyView extends JPanel implements MouseListener {
     private int[] lastMove;
     private ArrayList<Component> guessedList;
     private EnemyModel enemyModel;
+    private Component lastMoveComponent;
+    private boolean lastMoveState;
 
     public EnemyView(EnemyModel enemyModel) {
         this.enemyModel = enemyModel;
@@ -64,22 +66,30 @@ public class EnemyView extends JPanel implements MouseListener {
     @Override
     public void mousePressed(MouseEvent e) {
         if (isEnabled()) {
+            if (lastMoveComponent != null) {
+                if (lastMoveState)
+                    ((JLabel) lastMoveComponent).setIcon(new ImageIcon("resources/hit.gif"));
+                else ((JLabel) lastMoveComponent).setIcon(new ImageIcon("resources/miss.gif"));
+            }
             int row = e.getY() / PlayerView.SQUARE_LENGTH;
             int column = e.getX() / PlayerView.SQUARE_LENGTH;
             JLabel component = (JLabel) getComponentAt(e.getPoint());
             if (!guessedList.contains(component)) {
                 guessedList.add(component);
                 if (board[row][column] == 1) {
-                    Image hitIcon = Utils.loadImageFromRes("hit.gif");
+                    Image hitIcon = Utils.loadImageFromRes("just_hit.gif");
                     component.setIcon(new ImageIcon(hitIcon));
-                    enemyModel.getHit(row,column);
+                    enemyModel.getHit(row, column);
+                    lastMoveState = true;
                 } else {
-                    ImageIcon missIcon = new ImageIcon("resources/miss.gif");
+                    ImageIcon missIcon = new ImageIcon("resources/just_miss.gif");
                     component.setIcon(missIcon);
+                    lastMoveState = false;
                 }
                 lastMove[0] = row;
                 lastMove[1] = column;
                 setEnabled(false);
+                lastMoveComponent = component;
             }
         }
     }
