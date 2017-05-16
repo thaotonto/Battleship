@@ -38,6 +38,8 @@ public class PlayerView extends JPanel implements MouseMotionListener, MouseList
     private JLabel difficultyLabel;
     private JComboBox aiLevelBox;
     private PlayerModel playerModel;
+    private Component lastMoveComponent;
+    private boolean lastMoveState;
 
     public PlayerView() {
         setLayout(new BorderLayout());
@@ -176,6 +178,11 @@ public class PlayerView extends JPanel implements MouseMotionListener, MouseList
     }
 
     public void updateBoard(int row, int column) {
+        if (lastMoveComponent != null) {
+            if (lastMoveState)
+                ((JLabel) lastMoveComponent).setIcon(new ImageIcon("resources/hit.gif"));
+            else ((JLabel) lastMoveComponent).setIcon(new ImageIcon("resources/miss.gif"));
+        }
         JLabel jLabel = new JLabel(new ImageIcon(), JLabel.CENTER);
         System.out.println("Hit: " + checkHit(row, column));
         jLabel.setBorder(new MatteBorder(1, 1, 1, 1, Color.BLACK));
@@ -191,14 +198,17 @@ public class PlayerView extends JPanel implements MouseMotionListener, MouseList
                 end = System.currentTimeMillis();
             }
             layeredPane.remove(explosionLabel);
-            jLabel.setIcon(new ImageIcon("resources/hit.gif"));
+            jLabel.setIcon(new ImageIcon("resources/just_hit.gif"));
             jLabel.setBounds((column) * SQUARE_LENGTH, (row) * SQUARE_LENGTH, SQUARE_LENGTH, SQUARE_LENGTH);
             layeredPane.add(jLabel, new Integer(2));
+            lastMoveState = true;
         } else {
-            jLabel.setIcon(new ImageIcon("resources/miss.gif"));
+            jLabel.setIcon(new ImageIcon("resources/just_miss.gif"));
             jLabel.setBounds(column * SQUARE_LENGTH, row * SQUARE_LENGTH, SQUARE_LENGTH, SQUARE_LENGTH);
             layeredPane.add(jLabel, JLayeredPane.DRAG_LAYER);
+            lastMoveState = false;
         }
+        lastMoveComponent = jLabel;
     }
 
     public boolean checkHit(int row, int column) {
