@@ -29,7 +29,7 @@ public class ArrowPanel extends JPanel {
         JLabel textLabel = new JLabel("CURRENT TURN", JLabel.CENTER);
         textLabel.setFont(new Font("CONSOLAS", Font.BOLD, 16));
         this.add(textLabel, gridBagConstraints);
-        arrowLabel = new JLabel(new ImageIcon("resources/arrow_left.png"), JLabel.CENTER);
+        arrowLabel = new JLabel(new ImageIcon("resources/arrow_right.png"), JLabel.CENTER);
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.insets = new Insets(0,0,0,0);
@@ -66,10 +66,10 @@ public class ArrowPanel extends JPanel {
 
     public void flipArrow() {
         if (!flag) {
-            arrowLabel.setIcon(new ImageIcon("resources/arrow_right.png"));
+            arrowLabel.setIcon(new ImageIcon("resources/arrow_left.png"));
             flag = true;
         } else {
-            arrowLabel.setIcon(new ImageIcon("resources/arrow_left.png"));
+            arrowLabel.setIcon(new ImageIcon("resources/arrow_right.png"));
             flag = false;
         }
     }
