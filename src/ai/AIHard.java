@@ -118,52 +118,52 @@ public class AIHard extends AI {
         return false;
     }
 
-    public void addHorizontalPriority(Move move) { // add new priority to the right list
+    public void addVerticalPriority(Move move) { // add new priority to the right list
         int x = move.getX();
         int y = move.getY();
-        if (!move.isRightEdge() && !move.isLeftEdge()) {
+        if (!move.isBotEdge() && !move.isTopEdge()) {
             if (!isShoot(x - 1, y)) {
-                horizontalPriority.add(new Move(x - 1, y));
+                verticalPriority.add(new Move(x - 1, y));
                 System.out.println("Added (" + (x - 1) + ", " + y + ")");
             }
 
             if (!isShoot(x + 1, y)) {
-                horizontalPriority.add(new Move(x + 1, y));
+                verticalPriority.add(new Move(x + 1, y));
                 System.out.println("Added (" + (x + 1) + ", " + y + ")");
             }
-        } else if (move.isRightEdge()) {
+        } else if (move.isBotEdge()) {
             if (!isShoot(x - 1, y)) {
-                horizontalPriority.add(new Move(x - 1, y));
+                verticalPriority.add(new Move(x - 1, y));
                 System.out.println("Added (" + (x - 1) + ", " + y + ")");
             }
-        } else if (move.isLeftEdge()) {
+        } else if (move.isTopEdge()) {
             if (!isShoot(x + 1, y)) {
-                horizontalPriority.add(new Move(x + 1, y));
+                verticalPriority.add(new Move(x + 1, y));
                 System.out.println("Added (" + (x + 1) + ", " + y + ")");
             }
         }
     }
 
-    public void addVerticalPriority(Move move) {
+    public void addHorizontalPriority(Move move) {
         int x = move.getX();
         int y = move.getY();
-        if (!move.isTopEdge() && !move.isBotEdge()) {
+        if (!move.isLeftEdge() && !move.isRightEdge()) {
             if (!isShoot(x, y + 1)) {
-                verticalPriority.add(new Move(x, y + 1));
+                horizontalPriority.add(new Move(x, y + 1));
                 System.out.println("Added (" + (x) + ", " + (y + 1) + ")");
             }
             if (!isShoot(x, y - 1)) {
-                verticalPriority.add(new Move(x, y - 1));
+                horizontalPriority.add(new Move(x, y - 1));
                 System.out.println("Added (" + (x) + ", " + (y - 1) + ")");
             }
-        } else if (move.isTopEdge()) {
+        } else if (move.isLeftEdge()) {
             if (!isShoot(x, y + 1)) {
-                verticalPriority.add(new Move(x, y + 1));
+                horizontalPriority.add(new Move(x, y + 1));
                 System.out.println("Added (" + (x) + ", " + (y + 1) + ")");
             }
-        } else if (move.isBotEdge()) {
+        } else if (move.isRightEdge()) {
             if (!isShoot(x, y - 1)) {
-                verticalPriority.add(new Move(x, y - 1));
+                horizontalPriority.add(new Move(x, y - 1));
                 System.out.println("Added (" + (x) + ", " + (y - 1) + ")");
             }
         }

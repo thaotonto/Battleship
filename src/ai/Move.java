@@ -31,25 +31,25 @@ public class Move {
     }
 
     public boolean isRightEdge() {
-        return x == MAX_COL - 1;
+        return y == MAX_COL - 1;
     }
 
     public boolean isLeftEdge() {
-        return x == 0;
-    }
-
-    public boolean isTopEdge() {
         return y == 0;
     }
 
+    public boolean isTopEdge() {
+        return x == 0;
+    }
+
     public boolean isBotEdge() {
-        return y == MAX_ROW - 1;
+        return x == MAX_ROW - 1;
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (obj instanceof Move){
-            if (((Move) obj).getX() == this.x && ((Move) obj).getY() == this.y) return true;
+    public boolean equals(Object o) {
+        if (o instanceof Move){
+            if (((Move) o).getX() == this.x && ((Move) o).getY() == this.y) return true;
         }
         return false;
     }
