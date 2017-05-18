@@ -1,0 +1,13 @@
+                  HOW TO PLAY BATTLE SHIP
+
+1.Game Objective
+-Be the first to sink 5 of your opponent 's ships
+
+2.How to play
+- Player will have 5 ships with different length and a map with 10 rows and 10 columns
+- Player must secretly place their ships on his map. These represent the location of the ships on a battlefield
+- Player will try to sink computer 's ship by pressing cells by mouse on computer's grid.If the computer has any part of one of its ships positioned on this square,that part will be exploded and will mark by a hit symbol and player can continue his turn. Otherwise computer will take turn to shoot down player 's ship.
+
+3.How to place ship
+- Use mouse to drag ship into position
+- Click right mouse on the ship you want to change orientation
