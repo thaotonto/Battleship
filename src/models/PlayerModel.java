@@ -9,11 +9,21 @@ import java.util.List;
  */
 public class PlayerModel {
     private int[][] playerBoard;
+    private int[][] checkEndBoard;
     private List<Ship> shipList;
     private boolean end;
 
     public PlayerModel(int[][] playerBoard, List<Ship> shipList) {
         this.playerBoard = playerBoard;
+        this.checkEndBoard = new int[PlayerView.NUMBER_ROWS][PlayerView.NUMBER_COLUMNS];
+        for(int i = 0; i < playerBoard.length; i++)
+        {
+            checkEndBoard[i] = new int[playerBoard[i].length];
+            for (int j = 0; j < playerBoard[i].length; j++)
+            {
+                checkEndBoard[i][j] = playerBoard[i][j];
+            }
+        }
         this.shipList = shipList;
     }
 
@@ -26,16 +36,16 @@ public class PlayerModel {
     }
 
     public void getHit(int row, int col) {
-        playerBoard[row][col] = 0;
+        checkEndBoard[row][col] = 0;
         if (checkEnd()) {
             this.end = true;
         }
     }
 
     private boolean checkEnd() {
-        for (int i = 0; i < playerBoard.length; i++) {
-            for (int j = 0; j < playerBoard[i].length; j++) {
-                if (playerBoard[i][j] == 1) return false;
+        for (int i = 0; i < checkEndBoard.length; i++) {
+            for (int j = 0; j < checkEndBoard[i].length; j++) {
+                if (checkEndBoard[i][j] == 1) return false;
             }
         }
         return true;

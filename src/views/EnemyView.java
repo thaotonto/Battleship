@@ -66,15 +66,15 @@ public class EnemyView extends JPanel implements MouseListener {
     @Override
     public void mousePressed(MouseEvent e) {
         if (isEnabled()) {
-            if (lastMoveComponent != null) {
-                if (lastMoveState)
-                    ((JLabel) lastMoveComponent).setIcon(new ImageIcon("resources/hit.gif"));
-                else ((JLabel) lastMoveComponent).setIcon(new ImageIcon("resources/miss.gif"));
-            }
             int row = e.getY() / PlayerView.SQUARE_LENGTH;
             int column = e.getX() / PlayerView.SQUARE_LENGTH;
             JLabel component = (JLabel) getComponentAt(e.getPoint());
             if (!guessedList.contains(component)) {
+                if (lastMoveComponent != null) {
+                    if (lastMoveState)
+                        ((JLabel) lastMoveComponent).setIcon(new ImageIcon("resources/hit.gif"));
+                    else ((JLabel) lastMoveComponent).setIcon(new ImageIcon("resources/miss.gif"));
+                }
                 guessedList.add(component);
                 if (board[row][column] == 1) {
                     Image hitIcon = Utils.loadImageFromRes("just_hit.gif");

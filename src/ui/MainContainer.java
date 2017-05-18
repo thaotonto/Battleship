@@ -24,6 +24,7 @@ public class MainContainer {
     private MenuPanel menuPanel;
     private GamePanel gamePanel;
     private PlayerView playerView;
+    private JFrame instructionFrame;
 
     public MainContainer() {
         components = new ArrayList<>();
@@ -61,7 +62,7 @@ public class MainContainer {
         } else if (tag.equals(TAG_INSTRUCTION)) {
             showInstruction();
         } else if (tag.equals(TAG_GAME)) {
-            PlayerController playerController = new PlayerController(playerView.getPlayerModel(),playerView);
+            PlayerController playerController = new PlayerController(playerView.getPlayerModel(), playerView);
             gamePanel = new GamePanel(playerController);
             GameFrame.getInstance().setPanel(gamePanel);
         }
@@ -74,7 +75,8 @@ public class MainContainer {
     }
 
     public void showInstruction() {
-        new InstructionFrame();
+        if (instructionFrame == null)
+            instructionFrame = new InstructionFrame();
     }
 
 }

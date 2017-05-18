@@ -11,7 +11,7 @@ import java.util.Random;
  * Created by THM on 5/11/2017.
  */
 public abstract class AI {
-    protected int[][] battleMap = new int[PlayerView.NUMBER_COLUMNS][PlayerView.NUMBER_ROWS];
+    protected int[][] battleMap = new int[PlayerView.NUMBER_ROWS][PlayerView.NUMBER_COLUMNS];
     protected Move lastShot = null;
     protected List<Move> shootMove = new ArrayList<>();
     protected List<List<Move>> shipList;
