@@ -26,6 +26,11 @@ public class MainContainer {
     private PlayerView playerView;
     private JFrame instructionFrame;
 
+    public void setInstructionOn(boolean instructionOn) {
+        isInstructionOn = instructionOn;
+    }
+
+    private boolean isInstructionOn;
     public MainContainer() {
         components = new ArrayList<>();
         instance = this;
@@ -75,8 +80,8 @@ public class MainContainer {
     }
 
     public void showInstruction() {
-        if (instructionFrame == null)
-            instructionFrame = new InstructionFrame();
+        if(!isInstructionOn)
+            new InstructionFrame();
     }
 
 }

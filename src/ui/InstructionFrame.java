@@ -3,6 +3,8 @@ package ui;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
@@ -28,6 +30,15 @@ public class InstructionFrame extends JFrame {
     }
 
     private void setUpPanel() {
+        MainContainer.getInstance().setInstructionOn(true);
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent windowEvent) {
+
+               MainContainer.getInstance().setInstructionOn(false);
+            }
+        });
+
         instructionpanel.setLayout(new BorderLayout());
         this.add(instructionpanel,BorderLayout.CENTER);
         jTextArea = new JTextArea();
@@ -56,4 +67,6 @@ public class InstructionFrame extends JFrame {
 
         add(jScrollPane);
     }
+
+
 }
