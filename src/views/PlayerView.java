@@ -40,6 +40,8 @@ public class PlayerView extends JPanel implements MouseMotionListener, MouseList
     private PlayerModel playerModel;
     private Component lastMoveComponent;
     private boolean lastMoveState;
+    private JLabel playerName;
+    private JTextField playerNameText;
 
     public PlayerView() {
         setLayout(new BorderLayout());
@@ -106,10 +108,9 @@ public class PlayerView extends JPanel implements MouseMotionListener, MouseList
                     }
                     ships.add(ship);
                 }
-                playerModel = new PlayerModel(playerBoard, ships);
-
+                playerModel = new PlayerModel(playerBoard, ships, playerNameText.getText());
                 layeredPane.remove(chooseShipPanel);
-                arrowPanel = new ArrowPanel();
+                arrowPanel = new ArrowPanel(PlayerView.this, PlayerView.this, PlayerView.this);
                 arrowPanel.setBounds(SQUARE_LENGTH * NUMBER_COLUMNS, 0, COLUMNS_FOR_CHOOSE_SHIP_PANEL * SQUARE_LENGTH, SQUARE_LENGTH * NUMBER_ROWS);
                 layeredPane.add(arrowPanel, new Integer(0));
                 layeredPane.removeMouseListener(PlayerView.this);
@@ -137,11 +138,28 @@ public class PlayerView extends JPanel implements MouseMotionListener, MouseList
         chooseShipPanel.add(aiLevelBox, constraint);
         constraint.gridx = 0;
         constraint.gridy = 3;
+        constraint.weighty = 0;
+        playerName = new JLabel("Player Name: ");
+        playerName.setHorizontalAlignment(JLabel.CENTER);
+        playerName.setForeground(Color.WHITE);
+        playerName.setFont(new Font("CONSOLAS", Font.BOLD, 14));
+        chooseShipPanel.add(playerName, constraint);
+        constraint.gridx = 0;
+        constraint.gridy = 4;
+        constraint.weighty = 0;
+        constraint.weightx = 3;
+        playerNameText = new JTextField("Player");
+        playerNameText.setHorizontalAlignment(JTextField.CENTER);
+        playerNameText.setPreferredSize(new Dimension(120, 20));
+        chooseShipPanel.add(playerNameText, constraint);
+        constraint.gridx = 0;
+        constraint.gridy = 5;
         constraint.weighty = 1;
-        constraint.insets = new Insets(0, 0, 0, 0);
         chooseShipPanel.add(playBtn, constraint);
+        playerNameText.setVisible(false);
         difficultyLabel.setVisible(false);
         aiLevelBox.setVisible(false);
+        playerName.setVisible(false);
         playBtn.setVisible(false);
     }
 
@@ -299,6 +317,8 @@ public class PlayerView extends JPanel implements MouseMotionListener, MouseList
             if (x > SQUARE_LENGTH * NUMBER_COLUMNS) {
                 currentShip.reset();
                 playBtn.setVisible(false);
+                playerName.setVisible(false);
+                playerNameText.setVisible(false);
                 difficultyLabel.setVisible(false);
                 aiLevelBox.setVisible(false);
                 currentShip = null;
@@ -308,6 +328,8 @@ public class PlayerView extends JPanel implements MouseMotionListener, MouseList
             if (x + currentShip.getLength() * SQUARE_LENGTH > SQUARE_LENGTH * NUMBER_COLUMNS) {
                 currentShip.reset();
                 playBtn.setVisible(false);
+                playerNameText.setVisible(false);
+                playerName.setVisible(false);
                 difficultyLabel.setVisible(false);
                 aiLevelBox.setVisible(false);
                 currentShip = null;
@@ -322,6 +344,8 @@ public class PlayerView extends JPanel implements MouseMotionListener, MouseList
         currentShip = null;
 
         difficultyLabel.setVisible(isAllShipDeployed());
+        playerNameText.setVisible(isAllShipDeployed());
+        playerName.setVisible(isAllShipDeployed());
         aiLevelBox.setVisible(isAllShipDeployed());
         playBtn.setVisible(isAllShipDeployed());
     }
@@ -393,6 +417,14 @@ public class PlayerView extends JPanel implements MouseMotionListener, MouseList
 
     public JComboBox getAiLevelBox() {
         return aiLevelBox;
+    }
+
+    public JPanel getChooseShipPanel() {
+        return chooseShipPanel;
+    }
+
+    public JLayeredPane getLayeredPane() {
+        return layeredPane;
     }
 
 

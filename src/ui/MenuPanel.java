@@ -20,6 +20,7 @@ public class MenuPanel extends JPanel implements ActionListener {
     private JButton startBtn;
     private JButton instructionBtn;
     private JButton exitBtn;
+    private JButton historyBtn;
 
     public MenuPanel() {
         instance = this;
@@ -43,6 +44,10 @@ public class MenuPanel extends JPanel implements ActionListener {
         instructionBtn = new JButton("INSTRUCTIONS");
         instructionBtn.addActionListener(this);
         pageEnd.add(instructionBtn, gridBagConstraints);
+
+        historyBtn = new JButton("HISTORY");
+        historyBtn.addActionListener(this);
+        pageEnd.add(historyBtn, gridBagConstraints);
 
         exitBtn = new JButton("EXIT");
         exitBtn.addActionListener(this);
@@ -70,6 +75,8 @@ public class MenuPanel extends JPanel implements ActionListener {
             System.exit(1);
         } else if (e.getSource() == instructionBtn) {
             MainContainer.getInstance().showPanel(MainContainer.TAG_INSTRUCTION, true);
+        } else if (e.getSource() == historyBtn) {
+            MainContainer.getInstance().showPanel(MainContainer.TAG_HISTORY, true);
         }
 
     }

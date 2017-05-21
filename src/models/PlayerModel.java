@@ -10,17 +10,17 @@ import java.util.List;
 public class PlayerModel {
     private int[][] playerBoard;
     private int[][] checkEndBoard;
+    private String name;
     private List<Ship> shipList;
     private boolean end;
 
-    public PlayerModel(int[][] playerBoard, List<Ship> shipList) {
+    public PlayerModel(int[][] playerBoard, List<Ship> shipList, String name) {
+        this.name = name;
         this.playerBoard = playerBoard;
         this.checkEndBoard = new int[PlayerView.NUMBER_ROWS][PlayerView.NUMBER_COLUMNS];
-        for(int i = 0; i < playerBoard.length; i++)
-        {
+        for (int i = 0; i < playerBoard.length; i++) {
             checkEndBoard[i] = new int[playerBoard[i].length];
-            for (int j = 0; j < playerBoard[i].length; j++)
-            {
+            for (int j = 0; j < playerBoard[i].length; j++) {
                 checkEndBoard[i][j] = playerBoard[i][j];
             }
         }

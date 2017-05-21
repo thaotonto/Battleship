@@ -1,10 +1,13 @@
 package ui;
 
+import views.PlayerView;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 
 /**
  * Created by Hoang on 5/12/2017.
@@ -14,8 +17,12 @@ public class ArrowPanel extends JPanel {
     private boolean flag = false;
     public static final int PLAYER_WIN = 0;
     public static final int ENEMY_WIN = 1;
+    private MouseMotionListener mouseMotionListener;
+    private MouseListener mouseListener;
 
-    public ArrowPanel() {
+    public ArrowPanel(PlayerView playerView, MouseListener mouseListener, MouseMotionListener mouseMotionListener) {
+        this.mouseListener = mouseListener;
+        this.mouseMotionListener = mouseMotionListener;
         GridBagLayout gridBagLayout = new GridBagLayout();
         GridBagConstraints gridBagConstraints = new GridBagConstraints();
         this.setLayout(gridBagLayout);
@@ -53,7 +60,11 @@ public class ArrowPanel extends JPanel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                MainContainer.getInstance().showPanel(MainContainer.TAG_START,true);
+                playerView.getLayeredPane().remove(playerView.getArrowPanel());
+                playerView.getLayeredPane().add(playerView.getChooseShipPanel());
+                playerView.getLayeredPane().addMouseListener(mouseListener);
+                playerView.getLayeredPane().addMouseMotionListener(mouseMotionListener);
+                MainContainer.getInstance().showPanel(MainContainer.TAG_START,false);
             }
         });
         gridBagConstraints.gridx = 0;

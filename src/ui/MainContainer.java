@@ -19,12 +19,13 @@ public class MainContainer {
     public static final String TAG_START = "tag_start";
     public static final String TAG_INSTRUCTION = "tag_instruction";
     public static final String TAG_GAME = "tag_game";
-    public static final String TAG_GAME_OVER = "tag_game_over";
+    public static final String TAG_HISTORY = "tag_history";
 
     private MenuPanel menuPanel;
     private GamePanel gamePanel;
     private PlayerView playerView;
     private JFrame instructionFrame;
+    private HistoryPanel historyPanel;
 
     public void setInstructionOn(boolean instructionOn) {
         isInstructionOn = instructionOn;
@@ -47,14 +48,19 @@ public class MainContainer {
 
     public void showPanel(String tag, boolean refresh) {
         if (tag.equals(TAG_START)) {
-            if (playerView != null) {
-                components.remove(playerView);
+            if (refresh) {
+                if (playerView != null) {
+                    components.remove(playerView);
+                }
+                playerView = new PlayerView();
+                components.add(playerView);
+                Component component = components.get(components.size() - 1);
+                component.setName(TAG_START);
+                GameFrame.getInstance().setPanel(playerView);
+            } else {
+                Component component = components.get(components.size() - 1);
+                GameFrame.getInstance().setPanel((JPanel) component);
             }
-            playerView = new PlayerView();
-            components.add(playerView);
-            Component component = components.get(components.size() - 1);
-            component.setName(TAG_START);
-            GameFrame.getInstance().setPanel(playerView);
         } else if (tag.equals(TAG_MENU)) {
             if (menuPanel != null) {
                 components.clear();
@@ -70,13 +76,10 @@ public class MainContainer {
             PlayerController playerController = new PlayerController(playerView.getPlayerModel(), playerView);
             gamePanel = new GamePanel(playerController);
             GameFrame.getInstance().setPanel(gamePanel);
+        } else if (tag.equals(TAG_HISTORY)) {
+            historyPanel = new HistoryPanel();
+            GameFrame.getInstance().setPanel(historyPanel);
         }
-    }
-
-    public void onBackPressed() {
-        components.remove(components.size() - 1);
-        Component component = components.get(components.size() - 1);
-        GameFrame.getInstance().setPanel((JPanel) component);
     }
 
     public void showInstruction() {
