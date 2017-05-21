@@ -64,6 +64,7 @@ public class ArrowPanel extends JPanel {
                 playerView.getLayeredPane().add(playerView.getChooseShipPanel());
                 playerView.getLayeredPane().addMouseListener(mouseListener);
                 playerView.getLayeredPane().addMouseMotionListener(mouseMotionListener);
+                playerView.removeComponent();
                 MainContainer.getInstance().showPanel(MainContainer.TAG_START,false);
             }
         });

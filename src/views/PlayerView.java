@@ -11,6 +11,7 @@ import javax.swing.border.MatteBorder;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -42,6 +43,7 @@ public class PlayerView extends JPanel implements MouseMotionListener, MouseList
     private boolean lastMoveState;
     private JLabel playerName;
     private JTextField playerNameText;
+    private List<JLabel> removeLater;
 
     public PlayerView() {
         setLayout(new BorderLayout());
@@ -108,6 +110,7 @@ public class PlayerView extends JPanel implements MouseMotionListener, MouseList
                     }
                     ships.add(ship);
                 }
+                removeLater = new ArrayList<>();
                 playerModel = new PlayerModel(playerBoard, ships, playerNameText.getText());
                 layeredPane.remove(chooseShipPanel);
                 arrowPanel = new ArrowPanel(PlayerView.this, PlayerView.this, PlayerView.this);
@@ -218,11 +221,13 @@ public class PlayerView extends JPanel implements MouseMotionListener, MouseList
             layeredPane.remove(explosionLabel);
             jLabel.setIcon(new ImageIcon("resources/just_hit.gif"));
             jLabel.setBounds((column) * SQUARE_LENGTH, (row) * SQUARE_LENGTH, SQUARE_LENGTH, SQUARE_LENGTH);
+            removeLater.add(jLabel);
             layeredPane.add(jLabel, new Integer(2));
             lastMoveState = true;
         } else {
             jLabel.setIcon(new ImageIcon("resources/just_miss.gif"));
             jLabel.setBounds(column * SQUARE_LENGTH, row * SQUARE_LENGTH, SQUARE_LENGTH, SQUARE_LENGTH);
+            removeLater.add(jLabel);
             layeredPane.add(jLabel, JLayeredPane.DRAG_LAYER);
             lastMoveState = false;
         }
@@ -427,5 +432,12 @@ public class PlayerView extends JPanel implements MouseMotionListener, MouseList
         return layeredPane;
     }
 
-
+    public void removeComponent() {
+        Iterator<JLabel> iterator = removeLater.iterator();
+        while(iterator.hasNext()) {
+            Component component = iterator.next();
+            layeredPane.remove(component);
+            iterator.remove();
+        }
+    }
 }
