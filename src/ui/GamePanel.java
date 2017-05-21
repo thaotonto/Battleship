@@ -19,7 +19,7 @@ public class GamePanel extends JPanel {
         add(playerController.getPlayerView(), BorderLayout.LINE_START);
         enemyController = new EnemyController();
         add(enemyController.getEnemyView(), BorderLayout.LINE_END);
-        GameController gameController = new GameController(playerController,enemyController);
+        new GameController(playerController,enemyController);
     }
 
 }

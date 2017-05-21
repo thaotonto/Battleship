@@ -4,10 +4,7 @@ import views.PlayerView;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
+import java.awt.event.*;
 
 /**
  * Created by Hoang on 5/12/2017.
@@ -15,12 +12,14 @@ import java.awt.event.MouseMotionListener;
 public class ArrowPanel extends JPanel {
     private JLabel arrowLabel;
     private boolean flag = false;
+    private boolean restart;
     public static final int PLAYER_WIN = 0;
     public static final int ENEMY_WIN = 1;
     private MouseMotionListener mouseMotionListener;
     private MouseListener mouseListener;
 
     public ArrowPanel(PlayerView playerView, MouseListener mouseListener, MouseMotionListener mouseMotionListener) {
+        restart = false;
         this.mouseListener = mouseListener;
         this.mouseMotionListener = mouseMotionListener;
         GridBagLayout gridBagLayout = new GridBagLayout();
@@ -55,11 +54,12 @@ public class ArrowPanel extends JPanel {
                 MainContainer.getInstance().showInstruction();
             }
         });
-        JButton exitBtn = new JButton("RESTART");
-        exitBtn.addMouseListener(new MouseAdapter() {
+        JButton restartBtn = new JButton("RESTART");
+        restartBtn.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
+                restart = true;
                 playerView.getLayeredPane().remove(playerView.getArrowPanel());
                 playerView.getLayeredPane().add(playerView.getChooseShipPanel());
                 playerView.getLayeredPane().addMouseListener(mouseListener);
@@ -72,7 +72,19 @@ public class ArrowPanel extends JPanel {
         gridBagConstraints.gridy = 3;
         gridBagConstraints.weighty = 0;
         gridBagConstraints.insets = new Insets(0,0,0,0);
-        this.add(exitBtn, gridBagConstraints);
+        this.add(restartBtn, gridBagConstraints);
+        JButton backToMenuBtn = new JButton("MENU");
+        backToMenuBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                MainContainer.getInstance().showPanel(MainContainer.TAG_MENU, true);
+            }
+        });
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.weighty = 0;
+        gridBagConstraints.insets = new Insets(0,0,0,0);
+        this.add(backToMenuBtn, gridBagConstraints);
         setVisible(true);
     }
 
@@ -96,5 +108,9 @@ public class ArrowPanel extends JPanel {
                 arrowLabel.setText("You lose!");
                 break;
         }
+    }
+
+    public boolean isRestart() {
+        return restart;
     }
 }

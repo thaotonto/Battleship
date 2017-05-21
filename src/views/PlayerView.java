@@ -159,6 +159,18 @@ public class PlayerView extends JPanel implements MouseMotionListener, MouseList
         constraint.gridy = 5;
         constraint.weighty = 1;
         chooseShipPanel.add(playBtn, constraint);
+        JButton backToMenuBtn = new JButton("MENU");
+        backToMenuBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                MainContainer.getInstance().showPanel(MainContainer.TAG_MENU, true);
+            }
+        });
+        constraint.gridx = 0;
+        constraint.gridy = 6;
+        constraint.weighty = 1;
+        constraint.anchor = GridBagConstraints.PAGE_END;
+        chooseShipPanel.add(backToMenuBtn, constraint);
         playerNameText.setVisible(false);
         difficultyLabel.setVisible(false);
         aiLevelBox.setVisible(false);
@@ -199,6 +211,7 @@ public class PlayerView extends JPanel implements MouseMotionListener, MouseList
     }
 
     public void updateBoard(int row, int column) {
+        if (arrowPanel.isRestart()) return;
         if (lastMoveComponent != null) {
             if (lastMoveState)
                 ((JLabel) lastMoveComponent).setIcon(new ImageIcon("resources/hit.gif"));

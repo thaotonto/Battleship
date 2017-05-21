@@ -32,6 +32,7 @@ public class GameController {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
+                    if (playerController.getPlayerView().getArrowPanel().isRestart()) thread.stop();
                     if (playerController.getPlayerModel().isEnd() || enemyController.getEnemyModel().isEnd()) {
                         enemyController.getEnemyView().removeMouse();
                         if (playerController.getPlayerModel().isEnd()) {
