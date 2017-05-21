@@ -137,7 +137,7 @@ public class PlayerView extends JPanel implements MouseMotionListener, MouseList
         constraint.gridx = 0;
         constraint.gridy = 2;
         constraint.weighty = 0;
-        constraint.insets = new Insets(0, 0, 0, 0);
+        constraint.insets = new Insets(10, 0, 0, 0);
         chooseShipPanel.add(aiLevelBox, constraint);
         constraint.gridx = 0;
         constraint.gridy = 3;

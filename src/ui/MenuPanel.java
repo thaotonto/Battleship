@@ -13,7 +13,7 @@ import java.awt.event.ActionListener;
  */
 public class MenuPanel extends JPanel implements ActionListener {
     private static MenuPanel instance;
-    private int MENU_WIDTH = 420;
+    private int MENU_WIDTH = 500;
     private int MENU_HEIGHT = 420;
     private Image menuBackground;
 
