@@ -18,6 +18,7 @@ public class InstructionFrame extends JFrame {
     private JTextArea jTextArea;
     private JScrollPane jScrollPane;
     private JPanel instructionpanel;
+
     public InstructionFrame() throws HeadlessException {
         setSize(INTRUCTION_WIDTH, INTRUCTION_HEIGHT);
         setAlwaysOnTop(true);
@@ -25,7 +26,7 @@ public class InstructionFrame extends JFrame {
         setVisible(true);
         setLayout(new BorderLayout());
         setLocationRelativeTo(null);
-        instructionpanel= new JPanel();
+        instructionpanel = new JPanel();
         setUpPanel();
     }
 
@@ -40,7 +41,7 @@ public class InstructionFrame extends JFrame {
         });
 
         instructionpanel.setLayout(new BorderLayout());
-        this.add(instructionpanel,BorderLayout.CENTER);
+        this.add(instructionpanel, BorderLayout.CENTER);
         jTextArea = new JTextArea();
         jTextArea.setLineWrap(true);
         jTextArea.setWrapStyleWord(true);
@@ -52,11 +53,11 @@ public class InstructionFrame extends JFrame {
                 BorderFactory.createEmptyBorder(5, 10, 5, 5)));
         jScrollPane = new JScrollPane(jTextArea);
         jScrollPane.setBackground(Color.WHITE);
-        jScrollPane.setBorder(BorderFactory.createMatteBorder(1,0,0,0,Color.BLUE));
+        jScrollPane.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, Color.BLUE));
         File instruction = new File("resources/instruction.txt");
         try {
             Scanner scanner = new Scanner(instruction);
-            while(scanner.hasNextLine()){
+            while (scanner.hasNextLine()) {
                 jTextArea.append("\n");
                 jTextArea.append(scanner.nextLine());
             }

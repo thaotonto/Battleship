@@ -13,8 +13,8 @@ import java.awt.event.ActionListener;
  */
 public class MenuPanel extends JPanel implements ActionListener {
     private static MenuPanel instance;
-    private int MENU_WIDTH = 650;
-    private int MENU_HEIGHT = 650;
+    private int MENU_WIDTH = 420;
+    private int MENU_HEIGHT = 420;
     private Image menuBackground;
 
     private JButton startBtn;
@@ -25,13 +25,13 @@ public class MenuPanel extends JPanel implements ActionListener {
     public MenuPanel() {
         instance = this;
         setLayout(new BorderLayout());
-        menuBackground = Utils.loadImageFromRes("BG-0.png");
+        menuBackground = Utils.loadImageFromRes("menu_bg.jpg");
         initComp();
     }
 
     private void initComp() {
         GridBagConstraints gridBagConstraints = new GridBagConstraints();
-        gridBagConstraints.insets = new Insets(10, 20, 100, 20);
+        gridBagConstraints.insets = new Insets(10, 20, 235, 20);
 
         JPanel pageEnd = new JPanel(new GridBagLayout());
         pageEnd.setOpaque(false);
