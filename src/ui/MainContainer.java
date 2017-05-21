@@ -24,13 +24,13 @@ public class MainContainer {
     private MenuPanel menuPanel;
     private GamePanel gamePanel;
     private PlayerView playerView;
-    private JFrame instructionFrame;
 
     public void setInstructionOn(boolean instructionOn) {
         isInstructionOn = instructionOn;
     }
 
     private boolean isInstructionOn;
+
     public MainContainer() {
         components = new ArrayList<>();
         instance = this;
@@ -80,8 +80,7 @@ public class MainContainer {
     }
 
     public void showInstruction() {
-        if(!isInstructionOn)
+        if (!isInstructionOn)
             new InstructionFrame();
     }
-
 }
