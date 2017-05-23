@@ -21,7 +21,7 @@ public class MenuPanel extends JPanel implements ActionListener {
     private JButton instructionBtn;
     private JButton exitBtn;
     private JButton historyBtn;
-
+    private Dimension dimension= new Dimension(100,30);
     public MenuPanel() {
         instance = this;
         setLayout(new BorderLayout());
@@ -31,28 +31,41 @@ public class MenuPanel extends JPanel implements ActionListener {
 
     private void initComp() {
         GridBagConstraints gridBagConstraints = new GridBagConstraints();
-        gridBagConstraints.insets = new Insets(10, 20, 235, 20);
 
         JPanel pageEnd = new JPanel(new GridBagLayout());
         pageEnd.setOpaque(false);
 
-
+        gridBagConstraints.gridx=0;
+        gridBagConstraints.gridy=0;
+        gridBagConstraints.weightx=1;
+        gridBagConstraints.anchor=GridBagConstraints.LINE_START;
+        gridBagConstraints.insets=new Insets(0,20,20,20);
         startBtn = new JButton("START");
+        startBtn.setPreferredSize(dimension);
         startBtn.addActionListener(this);
         pageEnd.add(startBtn, gridBagConstraints);
-
-        instructionBtn = new JButton("INSTRUCTIONS");
+        gridBagConstraints.anchor=GridBagConstraints.LINE_END;
+        instructionBtn = new JButton("HELP");
+        instructionBtn.setPreferredSize(dimension);
         instructionBtn.addActionListener(this);
+        gridBagConstraints.gridx=1;
+        gridBagConstraints.gridy=0;
         pageEnd.add(instructionBtn, gridBagConstraints);
-
+        gridBagConstraints.anchor=GridBagConstraints.LINE_START;
         historyBtn = new JButton("HISTORY");
+        historyBtn.setPreferredSize(dimension);
         historyBtn.addActionListener(this);
+        gridBagConstraints.gridx=0;
+        gridBagConstraints.gridy=1;
         pageEnd.add(historyBtn, gridBagConstraints);
+        gridBagConstraints.anchor=GridBagConstraints.LINE_END;
 
         exitBtn = new JButton("EXIT");
+        exitBtn.setPreferredSize(dimension);
+        gridBagConstraints.gridx=1;
+        gridBagConstraints.gridy=1;
         exitBtn.addActionListener(this);
         pageEnd.add(exitBtn, gridBagConstraints);
-
         add(pageEnd, BorderLayout.PAGE_END);
     }
 

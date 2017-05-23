@@ -181,11 +181,11 @@ public class PlayerView extends JPanel implements MouseMotionListener, MouseList
 
     private void initShipLabel() {
 
-        createShipLabel(5, (SQUARE_LENGTH * (NUMBER_COLUMNS + 1)), SQUARE_LENGTH / 3);
-        createShipLabel(2, (SQUARE_LENGTH * (NUMBER_COLUMNS + 3)), SQUARE_LENGTH / 3);
-        createShipLabel(3, (SQUARE_LENGTH * (NUMBER_COLUMNS + 3)), SQUARE_LENGTH / 3 + SQUARE_LENGTH * 2 + SQUARE_LENGTH / 3);
-        createShipLabel(3, (SQUARE_LENGTH * (NUMBER_COLUMNS + 1)), SQUARE_LENGTH / 3 + SQUARE_LENGTH * 5 + SQUARE_LENGTH / 3);
-        createShipLabel(4, (SQUARE_LENGTH * (NUMBER_COLUMNS + 3)), SQUARE_LENGTH / 3 + SQUARE_LENGTH * 5 + SQUARE_LENGTH / 3);
+        createShipLabel(5, (SQUARE_LENGTH * (NUMBER_COLUMNS + 2)), SQUARE_LENGTH / 3);
+        createShipLabel(2, (SQUARE_LENGTH * (NUMBER_COLUMNS + 4)), SQUARE_LENGTH / 3);
+        createShipLabel(3, (SQUARE_LENGTH * (NUMBER_COLUMNS + 4)), SQUARE_LENGTH / 3 + SQUARE_LENGTH * 2 + SQUARE_LENGTH / 3);
+        createShipLabel(3, (SQUARE_LENGTH * (NUMBER_COLUMNS )), SQUARE_LENGTH / 3 );
+        createShipLabel(4, (SQUARE_LENGTH * (NUMBER_COLUMNS + 4)), SQUARE_LENGTH / 3 + SQUARE_LENGTH * 5 + SQUARE_LENGTH / 3);
 
     }
 
