@@ -344,7 +344,7 @@ public class PlayerView extends JPanel implements MouseMotionListener, MouseList
                 return;
             }
         } else {
-            if (x + currentShip.getLength() * SQUARE_LENGTH > SQUARE_LENGTH * NUMBER_COLUMNS) {
+            if (x + currentShip.getLength() * SQUARE_LENGTH-SQUARE_LENGTH/2> SQUARE_LENGTH * NUMBER_COLUMNS) {
                 currentShip.reset();
                 playBtn.setVisible(false);
                 playerNameText.setVisible(false);
