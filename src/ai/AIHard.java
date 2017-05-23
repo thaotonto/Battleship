@@ -13,6 +13,7 @@ public class AIHard extends AI {
 
     private List<Move> horizontalPriority = new ArrayList<>();
     private List<Move> verticalPriority = new ArrayList<>();
+    private List<Move> hitList = new ArrayList<>();
 
     public AIHard(List<Ship> shipList, int[][] battleMap) {
         super(shipList, battleMap);
@@ -28,7 +29,8 @@ public class AIHard extends AI {
             System.out.println("Random first shot");
             lastShot = randomShot();
             if (isHit(lastShot)) {
-                System.out.println("HIT");
+                hitList.add(lastShot);
+                System.out.println("HIT - add " + lastShot.getX() + ", " + lastShot.getY());
                 System.out.println("(" + lastShot.getX() + ", " + lastShot.getY() + ")");
                 addVerticalPriority(lastShot);
                 addHorizontalPriority(lastShot);
@@ -39,27 +41,122 @@ public class AIHard extends AI {
         } else {
             if (isDestroy(lastShot)) { // destroy a ship then random, clear priority
                 System.out.println("Destroyed ship");
-                lastShot = randomShot();
-                verticalPriority.clear();
-                horizontalPriority.clear();
-                if (isHit(lastShot)) {
-                    System.out.println("HIT");
-                    System.out.println("(" + lastShot.getX() + ", " + lastShot.getY() + ")");
-                    addVerticalPriority(lastShot);
-                    addHorizontalPriority(lastShot);
-                }
-            } else { // if not chose random a move on priorityList
-                if (horizontalPriority.isEmpty() && verticalPriority.isEmpty()) {
-                    System.out.println("Random nowhere");
+                if (!notFinish(hitList)) {
                     lastShot = randomShot();
+                    verticalPriority.clear();
+                    horizontalPriority.clear();
                     if (isHit(lastShot)) {
-                        System.out.println("HIT");
+                        hitList.add(lastShot);
+                        System.out.println("HIT - add " + lastShot.getX() + ", " + lastShot.getY());
                         System.out.println("(" + lastShot.getX() + ", " + lastShot.getY() + ")");
                         addVerticalPriority(lastShot);
                         addHorizontalPriority(lastShot);
+                    }
+                } else {
+                    Move temp = null;
+                    for (Move m : hitList) {
+                        if (!isDestroy(m)) {
+                            temp = m;
+                        }
+                    }
+                    System.out.println(temp.getX() + ", " + temp.getY() + " is not finish");
+                    horizontalPriority.clear();
+                    verticalPriority.clear();
+                    addVerticalPriority(temp);
+                    addHorizontalPriority(temp);
+                    priorityList.addAll(horizontalPriority);
+                    priorityList.addAll(verticalPriority);
+                    Move curShot;
+                    curShot = priorityList.get(random.nextInt(priorityList.size()));
+                    if (isHorizontalPriority(curShot)) { // if that move is in horizontalPriority
+                        System.out.println("Horizontal Priority");
+                        if (isHit(curShot)) { // if hit only check horizontalPriority, clear vertical and add new priority
+                            verticalPriority.clear();
+                            hitList.add(curShot);
+                            System.out.println("HIT - add " + curShot.getX() + ", " + curShot.getY());
+                            System.out.println("(" + curShot.getX() + ", " + curShot.getY() + ")");
+                            addHorizontalPriority(curShot);
+                        } else {
+                            System.out.println("MISSED");
+                            System.out.println("(" + curShot.getX() + ", " + curShot.getY() + ")");
+                        }
+                        horizontalPriority.remove(horizontalPriority.indexOf(curShot)); // remove move from priority
+                    } else if (isVerticalPriority(curShot)) {
+                        System.out.println("Vertical Priority");
+                        if (isHit(curShot)) {
+                            hitList.add(curShot);
+                            horizontalPriority.clear();
+                            System.out.println("HIT - add " + curShot.getX() + ", " + curShot.getY());
+                            System.out.println("(" + curShot.getX() + ", " + curShot.getY() + ")");
+                            addVerticalPriority(curShot);
+                        } else {
+                            System.out.println("MISSED");
+                            System.out.println("(" + curShot.getX() + ", " + curShot.getY() + ")");
+                        }
+                        verticalPriority.remove(verticalPriority.indexOf(curShot));
+                    }
+                    shootMove.add(curShot); // mark move as shoot
+                    lastShot = curShot; // update variable
+
+                }
+            } else { // if not chose random a move on priorityList
+                if (horizontalPriority.isEmpty() && verticalPriority.isEmpty()) {
+                    if (notFinish(hitList)) {
+                        Move temp = null;
+                        for (Move m : hitList) {
+                            if (!isDestroy(m)) {
+                                temp = m;
+                            }
+                        }
+                        System.out.println(temp.getX() + ", " + temp.getY() + " is not finish");
+                        addVerticalPriority(temp);
+                        addHorizontalPriority(temp);
+                        priorityList.addAll(horizontalPriority);
+                        priorityList.addAll(verticalPriority);
+                        Move curShot;
+                        curShot = priorityList.get(random.nextInt(priorityList.size()));
+                        if (isHorizontalPriority(curShot)) { // if that move is in horizontalPriority
+                            System.out.println("Horizontal Priority");
+                            if (isHit(curShot)) { // if hit only check horizontalPriority, clear vertical and add new priority
+                                verticalPriority.clear();
+                                hitList.add(curShot);
+                                System.out.println("HIT - add " + curShot.getX() + ", " + curShot.getY());
+                                System.out.println("(" + curShot.getX() + ", " + curShot.getY() + ")");
+                                addHorizontalPriority(curShot);
+                            } else {
+                                System.out.println("MISSED");
+                                System.out.println("(" + curShot.getX() + ", " + curShot.getY() + ")");
+                            }
+                            horizontalPriority.remove(horizontalPriority.indexOf(curShot)); // remove move from priority
+                        } else if (isVerticalPriority(curShot)) {
+                            System.out.println("Vertical Priority");
+                            if (isHit(curShot)) {
+                                hitList.add(curShot);
+                                horizontalPriority.clear();
+                                System.out.println("HIT - add " + curShot.getX() + ", " + curShot.getY());
+                                System.out.println("(" + curShot.getX() + ", " + curShot.getY() + ")");
+                                addVerticalPriority(curShot);
+                            } else {
+                                System.out.println("MISSED");
+                                System.out.println("(" + curShot.getX() + ", " + curShot.getY() + ")");
+                            }
+                            verticalPriority.remove(verticalPriority.indexOf(curShot));
+                        }
+                        shootMove.add(curShot); // mark move as shoot
+                        lastShot = curShot; // update variable
                     } else {
-                        System.out.println("MISSED");
-                        System.out.println("(" + lastShot.getX() + ", " + lastShot.getY() + ")");
+                        System.out.println("Random nowhere");
+                        lastShot = randomShot();
+                        if (isHit(lastShot)) {
+                            hitList.add(lastShot);
+                            System.out.println("HIT - add " + lastShot.getX() + ", " + lastShot.getY());
+                            System.out.println("(" + lastShot.getX() + ", " + lastShot.getY() + ")");
+                            addVerticalPriority(lastShot);
+                            addHorizontalPriority(lastShot);
+                        } else {
+                            System.out.println("MISSED");
+                            System.out.println("(" + lastShot.getX() + ", " + lastShot.getY() + ")");
+                        }
                     }
                 } else {
                     System.out.println("Get priority");
@@ -71,7 +168,8 @@ public class AIHard extends AI {
                         System.out.println("Horizontal Priority");
                         if (isHit(curShot)) { // if hit only check horizontalPriority, clear vertical and add new priority
                             verticalPriority.clear();
-                            System.out.println("HIT");
+                            hitList.add(curShot);
+                            System.out.println("HIT - add " + curShot.getX() + ", " + curShot.getY());
                             System.out.println("(" + curShot.getX() + ", " + curShot.getY() + ")");
                             addHorizontalPriority(curShot);
                         } else {
@@ -82,8 +180,9 @@ public class AIHard extends AI {
                     } else if (isVerticalPriority(curShot)) {
                         System.out.println("Vertical Priority");
                         if (isHit(curShot)) {
+                            hitList.add(curShot);
                             horizontalPriority.clear();
-                            System.out.println("HIT");
+                            System.out.println("HIT - add " + curShot.getX() + ", " + curShot.getY());
                             System.out.println("(" + curShot.getX() + ", " + curShot.getY() + ")");
                             addVerticalPriority(curShot);
                         } else {
@@ -116,6 +215,20 @@ public class AIHard extends AI {
             }
         }
         return false;
+    }
+
+    @Override
+    public Move randomShot() {
+        Random random = new Random();
+        int x, y;
+        do {
+            x = random.nextInt(Move.MAX_COL);
+            y = random.nextInt(Move.MAX_ROW);
+        } while (isShoot(x, y) || (x + y) % 2 == 0);
+        Move move = new Move(x, y);
+        shootMove.add(move);
+        System.out.println("Shoot: " + x + " " + y);
+        return move;
     }
 
     public void addVerticalPriority(Move move) { // add new priority to the right list
@@ -167,5 +280,14 @@ public class AIHard extends AI {
                 System.out.println("Added (" + (x) + ", " + (y - 1) + ")");
             }
         }
+    }
+
+    public boolean notFinish(List<Move> hitList) {
+        for (Move m : hitList) {
+            if (!isDestroy(m)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

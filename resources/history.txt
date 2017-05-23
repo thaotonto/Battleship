@@ -1,2 +1,3 @@
 23/05/2017 15:15|Player lost against A.I(Hard) in 45 moves.
 23/05/2017 15:16|Player won against A.I(Hard) in 41 moves.
+23/05/2017 23:39|Player lost against A.I(Hard) in 54 moves.
