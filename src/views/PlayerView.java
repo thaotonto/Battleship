@@ -153,6 +153,7 @@ public class PlayerView extends JPanel implements MouseMotionListener, MouseList
         constraint.weightx = 3;
         playerNameText = new JTextField("Player");
         playerNameText.setHorizontalAlignment(JTextField.CENTER);
+        playerNameText.setFont(new Font("CONSOLAS", Font.PLAIN, 14));
         playerNameText.setPreferredSize(new Dimension(120, 20));
         chooseShipPanel.add(playerNameText, constraint);
         constraint.gridx = 0;

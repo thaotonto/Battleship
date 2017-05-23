@@ -16,6 +16,7 @@ public class GameController {
     private PlayerController playerController;
     private EnemyController enemyController;
     private AI ai;
+    private int aiLevel;
     private Thread thread;
 
 
@@ -36,12 +37,11 @@ public class GameController {
                     if (playerController.getPlayerModel().isEnd() || enemyController.getEnemyModel().isEnd()) {
                         enemyController.getEnemyView().removeMouse();
                         if (playerController.getPlayerModel().isEnd()) {
-                            playerController.getPlayerView().getArrowPanel().gameOver(ArrowPanel.ENEMY_WIN);
+                            playerController.getPlayerView().getArrowPanel().gameOver(ArrowPanel.ENEMY_WIN, playerController.getPlayerModel().getName(), aiLevel);
                         } else {
-                            playerController.getPlayerView().getArrowPanel().gameOver(ArrowPanel.PLAYER_WIN);
+                            playerController.getPlayerView().getArrowPanel().gameOver(ArrowPanel.PLAYER_WIN, playerController.getPlayerModel().getName(), aiLevel);
                         }
-                    } else
-                    if (enemyController.getEnemyView().getLastMove()[0] != -1 && enemyController.getEnemyView().getLastMove()[1] != -1) {
+                    } else if (enemyController.getEnemyView().getLastMove()[0] != -1 && enemyController.getEnemyView().getLastMove()[1] != -1) {
                         playerController.getPlayerView().getArrowPanel().flipArrow();
                         ai.shot();
                         try {
@@ -62,6 +62,7 @@ public class GameController {
 
     public AI getAI(int aiLevel) {
         AI ai;
+        this.aiLevel = aiLevel;
         if (aiLevel == 0) {
             System.out.println("Easy Mode");
             ai = new AIEasy(playerController.getPlayerModel().getShipList(), playerController.getPlayerModel().getPlayerBoard());

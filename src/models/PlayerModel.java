@@ -51,6 +51,10 @@ public class PlayerModel {
         return true;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public boolean isEnd() {
         return end;
     }
