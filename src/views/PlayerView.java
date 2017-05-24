@@ -333,7 +333,7 @@ public class PlayerView extends JPanel implements MouseMotionListener, MouseList
         x = x + SQUARE_LENGTH / 2;
         y = y + SQUARE_LENGTH / 2;
         if (currentShip.isVertical()) {
-            if (x > SQUARE_LENGTH * NUMBER_COLUMNS) {
+            if (x >= SQUARE_LENGTH * NUMBER_COLUMNS) {
                 currentShip.reset();
                 playBtn.setVisible(false);
                 playerName.setVisible(false);
@@ -344,7 +344,7 @@ public class PlayerView extends JPanel implements MouseMotionListener, MouseList
                 return;
             }
         } else {
-            if (x + currentShip.getLength() * SQUARE_LENGTH-SQUARE_LENGTH/2> SQUARE_LENGTH * NUMBER_COLUMNS) {
+            if (x + currentShip.getLength() * SQUARE_LENGTH-SQUARE_LENGTH>= SQUARE_LENGTH * NUMBER_COLUMNS) {
                 currentShip.reset();
                 playBtn.setVisible(false);
                 playerNameText.setVisible(false);
