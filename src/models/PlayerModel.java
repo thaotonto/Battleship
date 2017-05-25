@@ -25,6 +25,7 @@ public class PlayerModel {
             }
         }
         this.shipList = shipList;
+        showBoard();
     }
 
     public int[][] getPlayerBoard() {
@@ -53,6 +54,20 @@ public class PlayerModel {
 
     public String getName() {
         return name;
+    }
+
+    public void showBoard() {
+        int count = 0;
+        System.out.println("________________________________________________________________________________");
+        for (int i = 0; i < playerBoard.length; i++) {
+            for (int j = 0; j < playerBoard[0].length; j++) {
+                if (playerBoard[i][j] == 1) count++;
+                System.out.print(playerBoard[i][j] + " ");
+            }
+            System.out.println();
+        }
+        System.out.println(count);
+        System.out.println("_____________________________________________________________________________");
     }
 
     public boolean isEnd() {

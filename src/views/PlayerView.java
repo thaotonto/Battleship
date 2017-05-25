@@ -282,15 +282,15 @@ public class PlayerView extends JPanel implements MouseMotionListener, MouseList
         }
     }
 
-    //    public void print()
-//    {
-//        for (int i = 0; i < shipList.size(); i++) {
-//            System.out.println(" "+shipList.get(i).getRow());
-//            System.out.println(" "+shipList.get(i).getColumn());
-//        }
-//        System.out.println("_______________________________");
-//
-//    }
+        public void print()
+    {
+        for (int i = 0; i < shipList.size(); i++) {
+            System.out.println(" "+shipList.get(i).getRow());
+            System.out.println(" "+shipList.get(i).getColumn());
+        }
+        System.out.println("_______________________________");
+
+    }
     @Override
     public void mousePressed(MouseEvent mouseEvent) {
         if (SwingUtilities.isRightMouseButton(mouseEvent)) return;

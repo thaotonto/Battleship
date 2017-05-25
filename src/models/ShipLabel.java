@@ -173,8 +173,8 @@ public class ShipLabel extends JLabel {
         }
         x = lastX;
         y = lastY;
-        row = x / SQUARE_LENGTH;
-        column = y / SQUARE_LENGTH;
+        row = y / SQUARE_LENGTH;
+        column = x / SQUARE_LENGTH;
     }
 
     public int getRow() {
