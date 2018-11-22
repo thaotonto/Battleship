@@ -15,11 +15,6 @@ public class ShipLabel extends JLabel {
     private int row;
     private int column;
     private int x;
-
-    public boolean isVertical() {
-        return isVertical;
-    }
-
     private int y;
     private int defaultX;
     private int defaultY;
@@ -184,4 +179,9 @@ public class ShipLabel extends JLabel {
     public int getColumn() {
         return column;
     }
+    
+    public boolean isVertical() {
+        return isVertical;
+    }
+
 }
